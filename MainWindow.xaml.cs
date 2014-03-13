@@ -10,15 +10,20 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using Microsoft.Win32;
+using System.IO;
 namespace Kristofides
 {
+
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
+
  
     public partial class MainWindow : Window
     {
+        static DataManager.DatabaseManager _db;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -38,7 +43,50 @@ namespace Kristofides
         /// </summary>
         private void MenuItemExit_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            MessageBoxResult result = MessageBox.Show("Do you want to close this window?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+                Application.Current.Shutdown();
+            }
+        }
+
+        private void MenuItemNewDatabase_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = String.Format("Database files|*{0}", "*.db");
+            saveFileDialog.DefaultExt = "db";
+            saveFileDialog.AddExtension = true;
+
+            if (saveFileDialog.ShowDialog(this) == true)
+            {
+                try
+                {
+                    File.Delete(saveFileDialog.FileName);
+                }
+                catch
+                {
+
+                }
+
+                _db = new DataManager.DatabaseManager(saveFileDialog.FileName);
+                _db.Create();
+                this.ResearchMenuItem.IsEnabled = true;
+                    
+            }
+        }
+
+        private void MenuItemOpenDatabase_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = String.Format("Database files|*{0}", "*.db");
+            openFileDialog.DefaultExt = "db";
+            openFileDialog.AddExtension = true;
+
+            if (openFileDialog.ShowDialog(this) == true)
+            {
+                _db = new DataManager.DatabaseManager(openFileDialog.FileName);
+                this.ResearchMenuItem.IsEnabled = true;
+            }
         }
     }
 }

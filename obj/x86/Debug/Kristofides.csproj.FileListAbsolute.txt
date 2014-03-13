@@ -9,3 +9,6 @@ C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Debug\Kristofides.Pr
 C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Debug\Kristofides.csproj.GenerateResource.Cache
 C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Debug\Kristofides.exe
 C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Debug\Kristofides.pdb
+C:\Dissertation\Kristofides\Kristofides\Kristofides\bin\Debug\Kristofides.exe.config
+C:\Dissertation\Kristofides\Kristofides\Kristofides\bin\Debug\System.Data.SQLite.dll
+C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Debug\Kristofides.csprojResolveAssemblyReference.cache

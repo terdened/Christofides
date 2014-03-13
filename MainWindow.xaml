@@ -8,13 +8,13 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Menu>
-            <MenuItem Header="Work database">
-                <MenuItem Header="New database"></MenuItem>
-                <MenuItem Header="Open existing database"></MenuItem>
+            <MenuItem Header="Working database">
+                <MenuItem Header="New database" Click="MenuItemNewDatabase_Click"></MenuItem>
+                <MenuItem Header="Open existing database" Click="MenuItemOpenDatabase_Click"></MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="Exit"  Click="MenuItemExit_Click"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Research" IsEnabled="False">
+            <MenuItem Name="ResearchMenuItem" Header="Research" IsEnabled="False">
                 <MenuItem Header="Graph">
                     <MenuItem Header="New graph"></MenuItem>
                     <MenuItem Header="Open graph"></MenuItem>
