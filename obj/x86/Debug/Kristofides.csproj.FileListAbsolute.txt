@@ -1,0 +1,11 @@
+C:\Dissertation\Kristofides\Kristofides\Kristofides\bin\Debug\Kristofides.exe
+C:\Dissertation\Kristofides\Kristofides\Kristofides\bin\Debug\Kristofides.pdb
+C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Debug\MainWindow.baml
+C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Debug\MainWindow.g.cs
+C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Debug\App.g.cs
+C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Debug\Kristofides_MarkupCompile.cache
+C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Debug\Kristofides.g.resources
+C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Debug\Kristofides.Properties.Resources.resources
+C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Debug\Kristofides.csproj.GenerateResource.Cache
+C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Debug\Kristofides.exe
+C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Debug\Kristofides.pdb
