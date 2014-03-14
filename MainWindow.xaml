@@ -4,7 +4,7 @@
         Title="Kristofides" Height="480" Width="640">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Menu>
@@ -15,13 +15,12 @@
                 <MenuItem Header="Exit"  Click="MenuItemExit_Click"></MenuItem>
             </MenuItem>
             <MenuItem Name="ResearchMenuItem" Header="Research" IsEnabled="False">
-                <MenuItem Header="Graph">
-                    <MenuItem Header="New graph"></MenuItem>
-                    <MenuItem Header="Open graph"></MenuItem>
-                    <MenuItem Header="Save graph"></MenuItem>
+                <MenuItem Name="GraphMenuItem" Header="Graph" IsEnabled="False">
+                    <MenuItem Name="NewGraphMenuItem" Header="New graph"></MenuItem>
+                    <MenuItem Name="OpenNewGraphMenuItem" Header="Open graph"></MenuItem>
+                    <MenuItem Name="SaveGraphMenuItem" Header="Save graph"></MenuItem>
                 </MenuItem>
-                <MenuItem Header="New research"></MenuItem>
-                <MenuItem Header="Save research"></MenuItem>
+                <MenuItem Header="New research" Click="MenuItemNewResearch_Click"></MenuItem>
                 <MenuItem Header="Open research"></MenuItem>
             </MenuItem>
             <MenuItem Header="View">
@@ -33,5 +32,6 @@
             <MenuItem Header="About" Click="MenuItemAbout_Click">
             </MenuItem>
         </Menu>
+        <Frame Grid.Row="1" HorizontalAlignment="Center" Name="MainContent" />
     </Grid>
 </Window>

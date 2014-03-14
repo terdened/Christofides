@@ -12,3 +12,5 @@ C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Debug\Kristofides.pd
 C:\Dissertation\Kristofides\Kristofides\Kristofides\bin\Debug\Kristofides.exe.config
 C:\Dissertation\Kristofides\Kristofides\Kristofides\bin\Debug\System.Data.SQLite.dll
 C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Debug\Kristofides.csprojResolveAssemblyReference.cache
+C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Debug\ResearchPage.baml
+C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Debug\ResearchPage.g.cs

@@ -22,7 +22,8 @@ namespace Kristofides
  
     public partial class MainWindow : Window
     {
-        static DataManager.DatabaseManager _db;
+        private static DataManager.DatabaseManager _db;
+        private static Research.Research _research;
 
         public MainWindow()
         {
@@ -71,7 +72,8 @@ namespace Kristofides
                 _db = new DataManager.DatabaseManager(saveFileDialog.FileName);
                 _db.Create();
                 this.ResearchMenuItem.IsEnabled = true;
-                    
+                this.GraphMenuItem.IsEnabled = false;
+                //To do: init MainContent
             }
         }
 
@@ -86,7 +88,16 @@ namespace Kristofides
             {
                 _db = new DataManager.DatabaseManager(openFileDialog.FileName);
                 this.ResearchMenuItem.IsEnabled = true;
+                this.GraphMenuItem.IsEnabled = false;
+                //To do: init MainContent
             }
+        }
+
+        private void MenuItemNewResearch_Click(object sender, RoutedEventArgs e)
+        {
+            _research = new Research.Research();
+            this.GraphMenuItem.IsEnabled = true;
+            this.MainContent.Content = new ResearchPage();
         }
     }
 }
