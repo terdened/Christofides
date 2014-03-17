@@ -21,6 +21,16 @@ namespace Kristofides.GraphStructure
             _edgeList = new List<Edge>();
         }
 
+        public List<Vertex> getVertexList()
+        {
+            return _vertexList;
+        }
+
+        public List<Edge> getEdgeList()
+        {
+            return _edgeList;
+        }
+
         public double[][] getMatrix()
         {
             double[][] result = new double[_vertexList.Count][];
@@ -56,8 +66,8 @@ namespace Kristofides.GraphStructure
             for (int i = 0; i < _vertexCount; i++)
             {
                 
-                double x = rand.NextDouble() * 200;
-                double y = rand.NextDouble() * 200;
+                double x = rand.NextDouble() * 500;
+                double y = rand.NextDouble() * 400;
 
                 _vertexList.Add(new Vertex(i,x,y));
             }
@@ -70,13 +80,28 @@ namespace Kristofides.GraphStructure
                 {
                     int secound = (int)(rand.NextDouble() * _vertexCount);
 
+                    Boolean isFree = true;
+
                     while (secound == i)
                     {
+                        isFree = true;
                         secound = (int)(rand.NextDouble() * _vertexCount);
+
+                        if (secound == i)
+                        {
+                            isFree = false;
+                        }
+
+                        for (int j = 0; j < _vertexList[i]._edgeList.Count; j++)
+                        {
+                            if(_vertexList[i]._edgeList[j]._b._id==secound)
+                                isFree = false;
+                        }
                     }
 
                     _vertexList[i].AddEdge(getVertexById(secound));
                     _vertexList[secound].AddEdge(getVertexById(i));
+                    _edgeList.Add(new Edge(_vertexList[i], _vertexList[secound]));
                 }
             }
         }

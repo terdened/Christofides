@@ -57,6 +57,8 @@
       <DependentUpon>ResearchPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Research\Research.cs" />
+    <Compile Include="View\VertexView.cs" />
+    <Compile Include="View\EdgeView.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

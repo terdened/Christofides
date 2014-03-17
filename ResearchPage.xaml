@@ -31,6 +31,6 @@
             <Label  Content="Graph matrix:"  Grid.Row="2" Grid.Column="0"/>
             <Label  Name="MatrixGrid" Grid.Row="2" Grid.Column="1"/>
         </Grid>
-        <Canvas Grid.Column="1" Width="200"/>
+        <Canvas Grid.Column="1" Margin="3" Width="Auto" Height="Auto" Name="GraphCanvas"/>
     </Grid>
 </Page>
