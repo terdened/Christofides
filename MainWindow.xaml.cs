@@ -97,7 +97,7 @@ namespace Kristofides
         {
             _research = new Research.Research();
             this.GraphMenuItem.IsEnabled = true;
-            this.MainContent.Content = new ResearchPage();
+            this.MainContent.Content = new ResearchPage(_research);
         }
     }
 }

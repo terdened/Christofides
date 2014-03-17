@@ -4,10 +4,33 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
+      d:DesignHeight="300" d:DesignWidth="400"
 	Title="ResearchPage">
-
-    <Grid HorizontalAlignment="Center">
-        <Label Content="Label" HorizontalAlignment="Left" Name="CreateDate" VerticalAlignment="Top" />
+    <Grid HorizontalAlignment="Left">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" HorizontalAlignment="Left">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Grid.Row="0" Margin="3" Content="Create date:" HorizontalAlignment="Left" Name="CreateDateLabel" VerticalAlignment="Top" />
+            <Label Grid.Column="0" Grid.Row="1" Margin="3" Content="Update date:" HorizontalAlignment="Left" Name="UpdateDateLabel" VerticalAlignment="Top" />
+            <Label Grid.Column="1" Grid.Row="0" Margin="3" Content="00:00 00.00.0000" HorizontalAlignment="Left" Name="CreateDate" VerticalAlignment="Top" />
+            <Label Grid.Column="1" Grid.Row="1" Margin="3" Content="00:00 00.00.0000" HorizontalAlignment="Left" Name="UpdateDate" VerticalAlignment="Top" />
+            <Label  Content="Graph matrix:"  Grid.Row="2" Grid.Column="0"/>
+            <Label  Name="MatrixGrid" Grid.Row="2" Grid.Column="1"/>
+        </Grid>
+        <Canvas Grid.Column="1" Width="200"/>
     </Grid>
 </Page>
