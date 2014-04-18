@@ -8,14 +8,14 @@ using System.Windows;
 
 namespace Kristofides.View
 {
-    public class EdgeView
+    public class BruteforceHighlightedEdgeView
     {
         public double x1, y1, x2, y2;
         public int length;
         public Line line;
         public Label text;
 
-        public EdgeView(double X1, double Y1, double X2, double Y2, int Length)
+        public BruteforceHighlightedEdgeView(double X1, double Y1, double X2, double Y2, int Length)
         {
             x1 = X1;
             y1 = Y1;
@@ -28,8 +28,8 @@ namespace Kristofides.View
             line.X2 = x2;
             line.Y1 = y1;
             line.Y2 = y2;
-            line.Stroke = System.Windows.Media.Brushes.Black;
-            line.StrokeThickness = 1;
+            line.Stroke = System.Windows.Media.Brushes.Red;
+            line.StrokeThickness = 4;
 
             text = new Label();
             text.Content = length.ToString();

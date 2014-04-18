@@ -1,0 +1,17 @@
+C:\Dissertation\Kristofides\Kristofides\Kristofides\bin\Release\Kristofides.exe.config
+C:\Dissertation\Kristofides\Kristofides\Kristofides\bin\Release\Kristofides.exe
+C:\Dissertation\Kristofides\Kristofides\Kristofides\bin\Release\Kristofides.pdb
+C:\Dissertation\Kristofides\Kristofides\Kristofides\bin\Release\System.Data.SQLite.dll
+C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Release\Kristofides.csprojResolveAssemblyReference.cache
+C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Release\MainWindow.baml
+C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Release\ResearchPage.baml
+C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Release\MainWindow.g.cs
+C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Release\ResearchPage.g.cs
+C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Release\App.g.cs
+C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Release\Kristofides_MarkupCompile.cache
+C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Release\Kristofides.g.resources
+C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Release\Kristofides.Properties.Resources.resources
+C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Release\Kristofides.csproj.GenerateResource.Cache
+C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Release\Kristofides.exe
+C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Release\Kristofides.pdb
+C:\Dissertation\Kristofides\Kristofides\Kristofides\bin\Release\PowerCollections.dll

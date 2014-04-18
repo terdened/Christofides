@@ -96,8 +96,36 @@ namespace Kristofides
         private void MenuItemNewResearch_Click(object sender, RoutedEventArgs e)
         {
             _research = new Research.Research();
+            
             this.GraphMenuItem.IsEnabled = true;
-            this.MainContent.Content = new ResearchPage(_research);
+            this.MainContent.Content = new ResearchPage(_research, false, false);
+            //_db.saveResearch(_research);
+        }
+
+
+        private void MenuItemNewGraph_Click(object sender, RoutedEventArgs e)
+        {
+            string vertexCount = Microsoft.VisualBasic.Interaction.InputBox(
+                "Input vertex count", "Input", "3", 100, 100);
+
+            string minEdge = Microsoft.VisualBasic.Interaction.InputBox(
+                "Input minimal edge count", "Input", "0", 100, 100);
+
+            string maxEdge = Microsoft.VisualBasic.Interaction.InputBox(
+                "Input maximal edge count", "Input", minEdge, 100, 100);
+
+            _research.generateGraph(Int32.Parse(vertexCount), Int32.Parse(minEdge), Int32.Parse(maxEdge));
+            this.MainContent.Content = new ResearchPage(_research, this.isShowMatrix.IsChecked, this.isShowGraph.IsChecked);
+        }
+
+
+        private void ViewEdit_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.MainContent.Content != null)
+            {
+                ResearchPage temp = (ResearchPage)this.MainContent.Content;
+                temp.updateGraph(this.isShowMatrix.IsChecked, this.isShowGraph.IsChecked);
+            }
         }
     }
 }

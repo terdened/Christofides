@@ -37,7 +37,7 @@ namespace Kristofides.View
             circle.HorizontalAlignment = HorizontalAlignment.Left;
             circle.VerticalAlignment = VerticalAlignment.Center;
             text = new Label();
-            text.Content = number.ToString();
+            text.Content = (number+1).ToString();
             text.Margin = new Thickness(x - text.Content.ToString().Length*6, y - 13, 0, 0);
         }
     }

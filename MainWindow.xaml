@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Kristofides.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Kristofides" Height="600" Width="800">
+        Title="Kristofides" Height="800" Width="1280">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -19,7 +19,7 @@
             </MenuItem>
             <MenuItem Name="ResearchMenuItem" Header="Research" IsEnabled="False">
                 <MenuItem Name="GraphMenuItem" Header="Graph" IsEnabled="False">
-                    <MenuItem Name="NewGraphMenuItem" Header="New graph"></MenuItem>
+                    <MenuItem Name="NewGraphMenuItem" Header="New graph" Click="MenuItemNewGraph_Click"></MenuItem>
                     <MenuItem Name="OpenNewGraphMenuItem" Header="Open graph"></MenuItem>
                     <MenuItem Name="SaveGraphMenuItem" Header="Save graph"></MenuItem>
                 </MenuItem>
@@ -28,8 +28,8 @@
             </MenuItem>
             <MenuItem Header="View">
                 <MenuItem Header="Windows">
-                    <MenuItem Header="Graph matrix"></MenuItem>
-                    <MenuItem Header="Graph visualisation"></MenuItem>
+                    <MenuItem Name="isShowMatrix" Header="Graph matrix" IsChecked="True" IsCheckable="true" Click="ViewEdit_Click" ></MenuItem>
+                    <MenuItem Name="isShowGraph" Header="Graph visualisation" IsChecked="True" IsCheckable="true" Click="ViewEdit_Click"></MenuItem>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="About" Click="MenuItemAbout_Click">

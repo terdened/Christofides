@@ -10,16 +10,19 @@ namespace Kristofides.Research
         private DateTime timeCreate;
         private DateTime timeUpdate;
         private GraphStructure.Graph graph;
-        private double kristofidesTime;
-        private double bruteforceTime;
-        private string kristofidesResult;
-        private string bruteforceResult;
+        public double kristofidesTime;
+        public double bruteforceTime;
+        public string kristofidesResult;
+        public string bruteforceResult;
 
         public Research()
         {
             timeCreate = DateTime.Now;
             timeUpdate = DateTime.Now;
-            generateGraph(5);
+            kristofidesTime = 0;
+            bruteforceTime = 0;
+            kristofidesResult = "";
+            bruteforceResult = "";
         }
 
         public DateTime getTimeCreate()
@@ -37,10 +40,11 @@ namespace Kristofides.Research
             return graph;
         }
 
-        public void generateGraph(int vertexCount)
+        public void generateGraph(int vertexCount, int minEdge, int maxEdge)
         {
-            graph = new GraphStructure.Graph(vertexCount);
+            graph = new GraphStructure.Graph(vertexCount, minEdge, maxEdge);
             graph.generateGraph();
+            timeUpdate = DateTime.Now;
         }
     }
 }

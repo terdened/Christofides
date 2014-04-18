@@ -36,6 +36,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="PowerCollections">
+      <HintPath>.\PowerCollections.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SQLite, Version=1.0.66.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
@@ -53,12 +57,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="GraphSolver\BrutforceSolver.cs" />
+    <Compile Include="GraphSolver\KristofidesSolver.cs" />
+    <Compile Include="GraphSolver\Solver.cs" />
     <Compile Include="ResearchPage.xaml.cs">
       <DependentUpon>ResearchPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Research\Research.cs" />
     <Compile Include="View\VertexView.cs" />
     <Compile Include="View\EdgeView.cs" />
+    <Compile Include="View\HighlightedEdgeView.cs" />
+    <Compile Include="View\BruteforceHighlightedEdgeView.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

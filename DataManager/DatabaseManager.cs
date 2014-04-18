@@ -27,7 +27,8 @@ namespace Kristofides.DataManager
             CREATE TABLE [Graph] (
                 [ID] integer PRIMARY KEY AUTOINCREMENT,
                 [VertexCount] int NOT NULL,
-                [Matrix] varchar NOT NULL
+                [Matrix] varchar NOT NULL,
+                [VertexList] varchar NOT NULL
             );";
 
         private const string InsertCommand = @"
@@ -38,6 +39,14 @@ namespace Kristofides.DataManager
             	@BrutforceResult, 
             	@KristofidesTime, 
             	@BrutforceTime)";
+
+        private const string InsertGraphCommand = @"
+            INSERT INTO Link (GraphID, VertexCount, Matrix, VertexList)
+            VALUES (
+            	@GraphID, 
+            	@VertexCount, 
+            	@Matrix, 
+            	@VertexList)";
 
         #endregion
 
@@ -62,14 +71,23 @@ namespace Kristofides.DataManager
             InsertRow(row.GraphID, row.KristofidesResult, row.BrutforceResult, row.KristofidesTime, row.BrutforceTime, command);
         }
 
-        private void InsertRow(int GraphID, string KristofidesResult, string BrutforceResult, float KristofidesTime,
-                                float BrutforceTime, SQLiteCommand command)
+        private void InsertRow(int GraphID, string KristofidesResult, string BrutforceResult, double KristofidesTime,
+                                double BrutforceTime, SQLiteCommand command)
         {
             command.Parameters["@GraphID"].Value = GraphID;
             command.Parameters["@KristofidesResult"].Value = KristofidesResult;
             command.Parameters["@BrutforceResult"].Value = BrutforceResult;
-            command.Parameters["@KristofidesTime"].Value = KristofidesTime;
-            command.Parameters["@BrutforceTime"].Value = BrutforceTime;
+            command.Parameters["@KristofidesTime"].Value = (int)KristofidesTime;
+            command.Parameters["@BrutforceTime"].Value = (int)BrutforceTime;
+            command.ExecuteNonQuery();
+        }
+
+        private void InsertGraphRow(int GraphID, int VertexCount, string Matrix, string VertexList, SQLiteCommand command)
+        {
+            command.Parameters["@GraphID"].Value = GraphID;
+            command.Parameters["@VertexCount"].Value = VertexCount;
+            command.Parameters["@Matrix"].Value = Matrix;
+            command.Parameters["@VertexList"].Value = VertexList;
             command.ExecuteNonQuery();
         }
 
@@ -148,6 +166,16 @@ namespace Kristofides.DataManager
             transaction.Commit();
             command.Dispose();
             connection.Dispose();
+        }
+
+        public void saveResearch(Research.Research research)
+        {
+            SQLiteConnection connection = new SQLiteConnection(_connectionString);
+            SQLiteCommand command = new SQLiteCommand();
+            SQLiteTransaction transaction;
+            this.StartInserting(out connection, out command, out transaction);
+            this.InsertRow(0, research.kristofidesResult, research.bruteforceResult, research.kristofidesTime, research.bruteforceTime, command);
+            this.FinishInserting(connection, command, transaction);
         }
     }
 
