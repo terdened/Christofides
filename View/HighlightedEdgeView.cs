@@ -32,8 +32,9 @@ namespace Kristofides.View
             line.StrokeThickness = 3;
 
             text = new Label();
-            text.Content = length.ToString();
-            text.Margin = new Thickness(-text.Content.ToString().Length*9 + (x1 + x2) / 2, -9 + (y1 + y2) / 2, 0, 0);
+            text.Content = "/";
+            text.Content += length.ToString();
+            text.Margin = new Thickness(-text.Content.ToString().Length*9 + (x1 + x2) / 2,5+ (y1 + y2) / 2, 0, 0);
         }
     }
 }

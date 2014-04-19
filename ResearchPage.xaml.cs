@@ -24,14 +24,19 @@ namespace Kristofides
     public partial class ResearchPage : Page
     {
 
+        #region private paramrters
         private static Research.Research _research;
         private Boolean isShowMatrix;
         private Boolean isShowGraph;
         private List<HighlightedEdgeView> highlightedEdgeViewList;
         private List<BruteforceHighlightedEdgeView> bruteforceHighlightedEdgeViewList;
         private GraphSolver.KristofidesSolver kristofidesSolution;
-        private List<Graph> kristofidesBackup;
+        private List<List<int>> loopControl;
+        private int maxLoopControlDeep = 8;
+        private int minLoopControlDeep = 3;
+        #endregion
 
+        #region public methods
         public ResearchPage(Research.Research research, Boolean isShowMatrix, Boolean isShowGraph)
         {
             InitializeComponent();
@@ -111,10 +116,12 @@ namespace Kristofides
 
 
             kristofidesSolution = new GraphSolver.KristofidesSolver(_research.getGraph());
-            kristofidesBackup = new List<Graph>();
+            loopControl = new List<List<int>>();
         }
+        #endregion
 
-        public void HighlightGraph(List<Edge> edges)
+        #region private methods
+        private void HighlightGraph(List<Edge> edges)
         {
             ClearHiglitedEdges();
             this.highlightedEdgeViewList = new List<HighlightedEdgeView>();
@@ -122,19 +129,23 @@ namespace Kristofides
             {
                 highlightedEdgeViewList.Add(new HighlightedEdgeView(edges[i]._a._x, edges[i]._a._y, edges[i]._b._x, edges[i]._b._y, (int)edges[i]._length));
                 this.GraphCanvas.Children.Add(highlightedEdgeViewList.Last().line);
+                //this.GraphCanvas.Children.Add(highlightedEdgeViewList.Last().text);
             }
         }
 
-        public void ClearHiglitedEdges()
+        private void ClearHiglitedEdges()
         {
             if (highlightedEdgeViewList != null)
             {
-                for(int i=0;i<highlightedEdgeViewList.Count;i++)
+                for (int i = 0; i < highlightedEdgeViewList.Count; i++)
+                {
                     this.GraphCanvas.Children.Remove(highlightedEdgeViewList[i].line);
+                    //this.GraphCanvas.Children.Remove(highlightedEdgeViewList[i].text);
+                }
             }
         }
 
-        public void BruteforceHighlightGraph(List<Edge> edges)
+        private void BruteforceHighlightGraph(List<Edge> edges)
         {
             BruteforceHighlightGraph();
             this.bruteforceHighlightedEdgeViewList = new List<BruteforceHighlightedEdgeView>();
@@ -145,13 +156,91 @@ namespace Kristofides
             }
         }
 
-        public void BruteforceHighlightGraph()
+        private void BruteforceHighlightGraph()
         {
             if (bruteforceHighlightedEdgeViewList != null)
             {
                 for (int i = 0; i < bruteforceHighlightedEdgeViewList.Count; i++)
                     this.GraphCanvas.Children.Remove(bruteforceHighlightedEdgeViewList[i].line);
             }
+        }
+
+        private void updateBackup(Graph modified)
+        {
+            ListBoxItem newItem = new ListBoxItem();
+            Graph skeleton = kristofidesSolution.GetSkeleton(modified);
+
+            List<int> tempVertexesDegree = new List<int>();
+            string title = "";
+            foreach (Vertex vertex in skeleton._vertexList)
+            {
+                tempVertexesDegree.Add(vertex._edgeList.Count);
+                title += vertex._edgeList.Count.ToString();
+            }
+
+            if (loopControl.Count > 0)
+            {
+                if (!IsCompareTwoRecords(tempVertexesDegree, loopControl.Last()))
+                {
+                    newItem.Content = title;
+                    BackupList.Items.Add(newItem);
+                    loopControl.Add(tempVertexesDegree);
+                }
+            }
+            else
+            {
+                newItem.Content = title;
+                BackupList.Items.Add(newItem);
+                loopControl.Add(tempVertexesDegree);
+            }
+
+            if(IsLooped())
+                MessageBox.Show("Loop");
+        }
+
+        private bool IsCompareTwoRecords(List<int> a, List<int> b)
+        {
+            for (int i = 0; i < a.Count; i++)
+            {
+                if (a[i] != b[i])
+                    return false;
+            }
+            return true;
+        }
+
+        private bool IsLooped()
+        {
+            int deep = maxLoopControlDeep;
+            if (loopControl.Count < deep * 2)
+                deep = loopControl.Count / 2;
+
+            if (deep >= minLoopControlDeep)
+            {
+                for (int i = minLoopControlDeep-1; i < deep; i++)
+                {
+                    List<List<int>> set = new List<List<int>>();
+                    for (int j = 0; j < i + 1; j++)
+                    {
+                        set.Add(loopControl[loopControl.Count - 1 - j]);
+                    }
+
+                    bool isCompare = true;
+
+                    for (int j = 0; j < set.Count; j++)
+                    {
+                        List<int> item2 = loopControl[loopControl.Count - 1 - (j+set.Count)];
+                        if (!IsCompareTwoRecords(set[j], item2))
+                        {
+                            isCompare = false;
+                            break;
+                        }
+                    }
+
+                    if (isCompare)
+                        return true;
+                }
+            }
+            return false;
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
@@ -193,8 +282,6 @@ namespace Kristofides
             kristofidesSolution.Reset();
             List<Edge> edges = kristofidesSolution.Solve();
             HighlightGraph(edges);
-
-            kristofidesBackup.Clear();
             BackupList.Items.Clear();
         }
 
@@ -219,9 +306,9 @@ namespace Kristofides
                 HighlightGraph(edges);
             }
 
-            string listBoxItemTitle = "Positive penalty " + penaltyValue;
-            updateBackup(kristofidesSolution.GetModified(), listBoxItemTitle);
+            updateBackup(kristofidesSolution.GetModified());
         }
+
         private void button5_Click(object sender, RoutedEventArgs e)
         {
             double penaltyValue = 10;
@@ -233,9 +320,9 @@ namespace Kristofides
                 HighlightGraph(edges);
             }
 
-            string listBoxItemTitle = "Positive penalty 10";
-            updateBackup(kristofidesSolution.GetModified(), listBoxItemTitle);
+            updateBackup(kristofidesSolution.GetModified());
         }
+
         private void button6_Click(object sender, RoutedEventArgs e)
         {
             double penaltyValue = 100;
@@ -247,38 +334,7 @@ namespace Kristofides
                 HighlightGraph(edges);
             }
 
-            string listBoxItemTitle = "Positive penalty 100";
-            updateBackup(kristofidesSolution.GetModified(), listBoxItemTitle);
-        }
-
-        private void updateBackup(Graph modified, String title)
-        {
-            Graph newGraph = new Graph();
-            foreach (Edge edge in modified._edgeList)
-            {
-                newGraph.addEdge(edge);
-            }
-
-            if ((BackupList.SelectedIndex<kristofidesBackup.Count-1)&&(BackupList.SelectedIndex!=-1))
-            {
-                kristofidesBackup.RemoveAt(BackupList.SelectedIndex);
-                BackupList.Items.RemoveAt(BackupList.SelectedIndex);
-            }
-
-            ListBoxItem newItem = new ListBoxItem();
-            newItem.Content = title;
-            BackupList.Items.Add(newItem);
-            kristofidesBackup.Add(newGraph);
-        }
-
-        private void ListViewItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (BackupList.SelectedIndex!=-1)
-            {
-                kristofidesSolution.SetModified(kristofidesBackup[BackupList.SelectedIndex]);
-                List<Edge> edges = kristofidesSolution.Solve();
-                HighlightGraph(edges);
-            }
+            updateBackup(kristofidesSolution.GetModified());
         }
 
         private void button7_Click(object sender, RoutedEventArgs e)
@@ -293,8 +349,7 @@ namespace Kristofides
                 HighlightGraph(edges);
             }
 
-            string listBoxItemTitle = "Negative penalty " + penaltyValue;
-            updateBackup(kristofidesSolution.GetModified(), listBoxItemTitle);
+            updateBackup(kristofidesSolution.GetModified());
         }
 
         private void button8_Click(object sender, RoutedEventArgs e)
@@ -308,8 +363,7 @@ namespace Kristofides
                 HighlightGraph(edges);
             }
 
-            string listBoxItemTitle = "Negative penalty 10";
-            updateBackup(kristofidesSolution.GetModified(), listBoxItemTitle);
+            updateBackup(kristofidesSolution.GetModified());
         }
 
         private void button9_Click(object sender, RoutedEventArgs e)
@@ -323,8 +377,7 @@ namespace Kristofides
                 HighlightGraph(edges);
             }
 
-            string listBoxItemTitle = "Negative penalty 100";
-            updateBackup(kristofidesSolution.GetModified(), listBoxItemTitle);
+            updateBackup(kristofidesSolution.GetModified());
         }
 
         private void button10_Click(object sender, RoutedEventArgs e)
@@ -339,8 +392,7 @@ namespace Kristofides
                 HighlightGraph(edges);
             }
 
-            string listBoxItemTitle = "Combine penalty " + penaltyValue;
-            updateBackup(kristofidesSolution.GetModified(), listBoxItemTitle);
+            updateBackup(kristofidesSolution.GetModified());
         }
 
         private void button11_Click(object sender, RoutedEventArgs e)
@@ -354,8 +406,7 @@ namespace Kristofides
                 HighlightGraph(edges);
             }
 
-            string listBoxItemTitle = "Combine penalty 10";
-            updateBackup(kristofidesSolution.GetModified(), listBoxItemTitle);
+            updateBackup(kristofidesSolution.GetModified());
         }
 
         private void button12_Click(object sender, RoutedEventArgs e)
@@ -369,8 +420,8 @@ namespace Kristofides
                 HighlightGraph(edges);
             }
 
-            string listBoxItemTitle = "Combine penalty 100";
-            updateBackup(kristofidesSolution.GetModified(), listBoxItemTitle);
+            updateBackup(kristofidesSolution.GetModified());
         }
+        #endregion
     }
 }
