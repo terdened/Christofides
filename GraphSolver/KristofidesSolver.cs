@@ -42,10 +42,10 @@ namespace Kristofides.GraphSolver
             modified=newGraph;
         }
 
-        public List<Edge> Solve()
+        public Graph Solve()
         {
             Graph skeleton = GetSkeleton(modified);
-            return skeleton.getEdges();
+            return skeleton;
         }
 
         public Graph GetSkeleton(Graph inputGraph)

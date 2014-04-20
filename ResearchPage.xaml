@@ -46,15 +46,15 @@
                 <Label Content="Positive penalty:" Margin="0" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" />
                 <Button Content="Penalty(...)" Margin="3" Grid.Column="0" Grid.Row="2"   Height="23" HorizontalAlignment="Left" Name="button4" VerticalAlignment="Top" Width="100" Click="button4_Click" />
                 <Button Content="Penalty(10)" Margin="3" Grid.Column="1" Grid.Row="2"   Height="23" HorizontalAlignment="Left" Name="button5" VerticalAlignment="Top" Width="100" Click="button5_Click" />
-                <Button Content="Penalty(100)" Margin="3" Grid.Column="2" Grid.Row="2"   Height="23" HorizontalAlignment="Left" Name="button6" VerticalAlignment="Top" Width="100" Click="button6_Click" />
+                <Button Content="Penalty(while)" Margin="3" Grid.Column="2" Grid.Row="2"   Height="23" HorizontalAlignment="Left" Name="button6" VerticalAlignment="Top" Width="100" Click="button6_Click" />
                 <Label Content="Negative penalty:" Margin="0" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" />
                 <Button Content="Penalty(...)" Margin="3" Grid.Column="0" Grid.Row="4"   Height="23" HorizontalAlignment="Left" Name="button7" VerticalAlignment="Top" Width="100" Click="button7_Click" />
                 <Button Content="Penalty(10)" Margin="3" Grid.Column="1" Grid.Row="4"   Height="23" HorizontalAlignment="Left" Name="button8" VerticalAlignment="Top" Width="100" Click="button8_Click" />
-                <Button Content="Penalty(100)" Margin="3" Grid.Column="2" Grid.Row="4"   Height="23" HorizontalAlignment="Left" Name="button9" VerticalAlignment="Top" Width="100" Click="button9_Click" />
+                <Button Content="Penalty(while)" Margin="3" Grid.Column="2" Grid.Row="4"   Height="23" HorizontalAlignment="Left" Name="button9" VerticalAlignment="Top" Width="100" Click="button9_Click" />
                 <Label Content="Combine penalty:" Margin="0" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Center" />
                 <Button Content="Penalty(...)" Margin="3" Grid.Column="0" Grid.Row="6"   Height="23" HorizontalAlignment="Left" Name="button10" VerticalAlignment="Top" Width="100" Click="button10_Click" />
                 <Button Content="Penalty(10)" Margin="3" Grid.Column="1" Grid.Row="6"   Height="23" HorizontalAlignment="Left" Name="button11" VerticalAlignment="Top" Width="100" Click="button11_Click" />
-                <Button Content="Penalty(100)" Margin="3" Grid.Column="2" Grid.Row="6"   Height="23" HorizontalAlignment="Left" Name="button12" VerticalAlignment="Top" Width="100" Click="button12_Click" />
+                <Button Content="Penalty(while)" Margin="3" Grid.Column="2" Grid.Row="6"   Height="23" HorizontalAlignment="Left" Name="button12" VerticalAlignment="Top" Width="100" Click="button12_Click" />
 
             </Grid>
             <ListBox Grid.Column="0" Grid.Row="1" Width="300" Height="200" Name="BackupList"/>

@@ -243,6 +243,33 @@ namespace Kristofides
             return false;
         }
 
+        private bool IsSolved(Graph skeleton)
+        {
+            bool result = true;
+
+            if (skeleton != null)
+            {
+                foreach (Vertex vertex in skeleton._vertexList)
+                {
+                    if (vertex._edgeList.Count > 2)
+                    {
+                        result = false;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                result = false;
+            }
+        
+
+            if (result)
+                MessageBox.Show("Solved");
+
+            return result;
+        }
+
         private void button1_Click(object sender, RoutedEventArgs e)
         {
             GraphSolver.Brutforce sol = new GraphSolver.Brutforce(_research.getGraph());
@@ -280,7 +307,7 @@ namespace Kristofides
                 kristofidesSolution = new GraphSolver.KristofidesSolver(_research.getGraph());
 
             kristofidesSolution.Reset();
-            List<Edge> edges = kristofidesSolution.Solve();
+            List<Edge> edges = kristofidesSolution.Solve()._edgeList;
             HighlightGraph(edges);
             BackupList.Items.Clear();
         }
@@ -290,7 +317,7 @@ namespace Kristofides
             if (kristofidesSolution == null)
                 kristofidesSolution = new GraphSolver.KristofidesSolver(_research.getGraph());
 
-            List<Edge> edges = kristofidesSolution.Solve();
+            List<Edge> edges = kristofidesSolution.Solve()._edgeList;
             HighlightGraph(edges);
         }
 
@@ -302,7 +329,7 @@ namespace Kristofides
             if (kristofidesSolution != null)
             {
                 kristofidesSolution.PositivePenalty(double.Parse(penaltyValue));
-                List<Edge> edges = kristofidesSolution.Solve();
+                List<Edge> edges = kristofidesSolution.Solve()._edgeList;
                 HighlightGraph(edges);
             }
 
@@ -316,7 +343,7 @@ namespace Kristofides
             if (kristofidesSolution != null)
             {
                 kristofidesSolution.PositivePenalty(penaltyValue);
-                List<Edge> edges = kristofidesSolution.Solve();
+                List<Edge> edges = kristofidesSolution.Solve()._edgeList;
                 HighlightGraph(edges);
             }
 
@@ -325,16 +352,21 @@ namespace Kristofides
 
         private void button6_Click(object sender, RoutedEventArgs e)
         {
-            double penaltyValue = 100;
+            string penaltyValue = Microsoft.VisualBasic.Interaction.InputBox(
+                "Input penalty value", "Input", "5", 100, 100);
 
             if (kristofidesSolution != null)
             {
-                kristofidesSolution.PositivePenalty(penaltyValue);
-                List<Edge> edges = kristofidesSolution.Solve();
-                HighlightGraph(edges);
+                Graph skeleton = null;
+                while (!IsSolved(skeleton) && !IsLooped())
+                {
+                    kristofidesSolution.PositivePenalty(double.Parse(penaltyValue));
+                    List<Edge> edges = kristofidesSolution.Solve()._edgeList;
+                    HighlightGraph(edges);
+                    updateBackup(kristofidesSolution.GetModified());
+                }
             }
 
-            updateBackup(kristofidesSolution.GetModified());
         }
 
         private void button7_Click(object sender, RoutedEventArgs e)
@@ -345,7 +377,7 @@ namespace Kristofides
             if (kristofidesSolution != null)
             {
                 kristofidesSolution.NegativePenalty(double.Parse(penaltyValue));
-                List<Edge> edges = kristofidesSolution.Solve();
+                List<Edge> edges = kristofidesSolution.Solve()._edgeList;
                 HighlightGraph(edges);
             }
 
@@ -359,7 +391,7 @@ namespace Kristofides
             if (kristofidesSolution != null)
             {
                 kristofidesSolution.NegativePenalty(penaltyValue);
-                List<Edge> edges = kristofidesSolution.Solve();
+                List<Edge> edges = kristofidesSolution.Solve()._edgeList;
                 HighlightGraph(edges);
             }
 
@@ -368,16 +400,20 @@ namespace Kristofides
 
         private void button9_Click(object sender, RoutedEventArgs e)
         {
-            double penaltyValue = 100;
+            string penaltyValue = Microsoft.VisualBasic.Interaction.InputBox(
+                "Input penalty value", "Input", "5", 100, 100);
 
             if (kristofidesSolution != null)
             {
-                kristofidesSolution.NegativePenalty(penaltyValue);
-                List<Edge> edges = kristofidesSolution.Solve();
-                HighlightGraph(edges);
+                Graph skeleton = null;
+                while (!IsSolved(skeleton) && !IsLooped())
+                {
+                    kristofidesSolution.NegativePenalty(double.Parse(penaltyValue));
+                    List<Edge> edges = kristofidesSolution.Solve()._edgeList;
+                    HighlightGraph(edges);
+                    updateBackup(kristofidesSolution.GetModified());
+                }
             }
-
-            updateBackup(kristofidesSolution.GetModified());
         }
 
         private void button10_Click(object sender, RoutedEventArgs e)
@@ -388,7 +424,7 @@ namespace Kristofides
             if (kristofidesSolution != null)
             {
                 kristofidesSolution.CombinePenalty(double.Parse(penaltyValue));
-                List<Edge> edges = kristofidesSolution.Solve();
+                List<Edge> edges = kristofidesSolution.Solve()._edgeList;
                 HighlightGraph(edges);
             }
 
@@ -402,7 +438,7 @@ namespace Kristofides
             if (kristofidesSolution != null)
             {
                 kristofidesSolution.CombinePenalty(penaltyValue);
-                List<Edge> edges = kristofidesSolution.Solve();
+                List<Edge> edges = kristofidesSolution.Solve()._edgeList;
                 HighlightGraph(edges);
             }
 
@@ -411,16 +447,20 @@ namespace Kristofides
 
         private void button12_Click(object sender, RoutedEventArgs e)
         {
-            double penaltyValue = 100;
+            string penaltyValue = Microsoft.VisualBasic.Interaction.InputBox(
+                "Input penalty value", "Input", "5", 100, 100);
 
             if (kristofidesSolution != null)
             {
-                kristofidesSolution.CombinePenalty(penaltyValue);
-                List<Edge> edges = kristofidesSolution.Solve();
-                HighlightGraph(edges);
+                Graph skeleton = null;
+                while (!IsSolved(skeleton) && !IsLooped())
+                {
+                    kristofidesSolution.CombinePenalty(double.Parse(penaltyValue));
+                    List<Edge> edges = kristofidesSolution.Solve()._edgeList;
+                    HighlightGraph(edges);
+                    updateBackup(kristofidesSolution.GetModified());
+                }
             }
-
-            updateBackup(kristofidesSolution.GetModified());
         }
         #endregion
     }
