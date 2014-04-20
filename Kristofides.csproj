@@ -68,6 +68,8 @@
     <Compile Include="View\EdgeView.cs" />
     <Compile Include="View\HighlightedEdgeView.cs" />
     <Compile Include="View\BruteforceHighlightedEdgeView.cs" />
+    <Compile Include="WidthSearchOptimization\Item.cs" />
+    <Compile Include="WidthSearchOptimization\WidthSearchOptimizator.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

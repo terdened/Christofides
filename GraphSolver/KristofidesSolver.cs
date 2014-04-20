@@ -13,13 +13,15 @@ namespace Kristofides.GraphSolver
 
         public KristofidesSolver(Graph graph)
         {
-            original = graph;
-            modified = new Graph();
-            foreach (Edge edge in original._edgeList)
-            {
-                modified.addEdge(edge);
-            }
+            original = new Graph(graph);
+            modified = new Graph(original);
             FirstPenalty(1000);
+        }
+
+        public KristofidesSolver(KristofidesSolver solver)
+        {
+            original = new Graph(solver.original);
+            modified = new Graph(solver.modified);
         }
 
         public void Reset()
@@ -39,7 +41,7 @@ namespace Kristofides.GraphSolver
 
         public void SetModified(Graph newGraph)
         {
-            modified=newGraph;
+            modified=new Graph(newGraph);
         }
 
         public Graph Solve()

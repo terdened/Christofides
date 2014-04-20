@@ -19,5 +19,13 @@ namespace Kristofides.GraphStructure
             Vector tempVector = new Vector(_a._x - _b._x, _a._y-b._y);
             _length = tempVector.Length;
         }
+
+        public Edge(Edge edge)
+        {
+            _a = edge._a;
+            _b = edge._b;
+            Vector tempVector = new Vector(_a._x - _b._x, _a._y - _b._y);
+            _length = tempVector.Length;
+        }
     }
 }

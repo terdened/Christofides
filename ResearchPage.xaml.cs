@@ -13,7 +13,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using Kristofides.GraphStructure;
+using Kristofides.GraphSolver;
 using Kristofides.View;
+using Kristofides.WidthSearchOptimization;
 
 namespace Kristofides
 {
@@ -34,6 +36,7 @@ namespace Kristofides
         private List<List<int>> loopControl;
         private int maxLoopControlDeep = 8;
         private int minLoopControlDeep = 3;
+        private WidthSearchOptimizator optimizator;
         #endregion
 
         #region public methods
@@ -117,6 +120,7 @@ namespace Kristofides
 
             kristofidesSolution = new GraphSolver.KristofidesSolver(_research.getGraph());
             loopControl = new List<List<int>>();
+            optimizator = new WidthSearchOptimizator();
         }
         #endregion
 
@@ -237,7 +241,9 @@ namespace Kristofides
                     }
 
                     if (isCompare)
+                    {
                         return true;
+                    }
                 }
             }
             return false;
@@ -314,11 +320,26 @@ namespace Kristofides
 
         private void button3_Click(object sender, RoutedEventArgs e)
         {
-            if (kristofidesSolution == null)
-                kristofidesSolution = new GraphSolver.KristofidesSolver(_research.getGraph());
+            if (optimizator != null)
+            {
+                loopControl = new List<List<int>>();
+                Graph input = new Graph();
 
-            List<Edge> edges = kristofidesSolution.Solve()._edgeList;
-            HighlightGraph(edges);
+                foreach (Edge edge in kristofidesSolution.GetModified()._edgeList)
+                {
+                    input.addEdge(edge);
+                }
+
+                string report = optimizator.Iteration(kristofidesSolution);
+                ListBoxItem lbi = new ListBoxItem();
+                lbi.Content = report;
+                BackupList.Items.Add(lbi);
+
+                input = new Graph(optimizator.GetLastBest());
+
+                kristofidesSolution.SetModified(input);
+                HighlightGraph(kristofidesSolution.Solve()._edgeList);
+            }
         }
 
         private void button4_Click(object sender, RoutedEventArgs e)
@@ -343,7 +364,7 @@ namespace Kristofides
             if (kristofidesSolution != null)
             {
                 kristofidesSolution.PositivePenalty(penaltyValue);
-                List<Edge> edges = kristofidesSolution.Solve()._edgeList;
+                List<Edge> edges = kristofidesSolution.GetSkeleton(kristofidesSolution.GetModified())._edgeList;
                 HighlightGraph(edges);
             }
 
@@ -357,6 +378,8 @@ namespace Kristofides
 
             if (kristofidesSolution != null)
             {
+                loopControl.Clear();
+                BackupList.Items.Clear();
                 Graph skeleton = null;
                 while (!IsSolved(skeleton) && !IsLooped())
                 {
@@ -405,6 +428,9 @@ namespace Kristofides
 
             if (kristofidesSolution != null)
             {
+
+                loopControl.Clear();
+                BackupList.Items.Clear();
                 Graph skeleton = null;
                 while (!IsSolved(skeleton) && !IsLooped())
                 {
@@ -452,6 +478,8 @@ namespace Kristofides
 
             if (kristofidesSolution != null)
             {
+                loopControl.Clear();
+                BackupList.Items.Clear();
                 Graph skeleton = null;
                 while (!IsSolved(skeleton) && !IsLooped())
                 {

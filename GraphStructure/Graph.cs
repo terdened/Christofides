@@ -29,6 +29,25 @@ namespace Kristofides.GraphStructure
             _edgeList = new List<Edge>();
         }
 
+        public Graph(Graph graph)
+        {
+            _vertexCount = graph._vertexCount;
+            _minEdge = graph._minEdge;
+            _maxEdge = graph._maxEdge;
+            _vertexList = new List<Vertex>();
+            _edgeList = new List<Edge>();
+
+            foreach (Vertex vertex in graph._vertexList)
+            {
+                _vertexList.Add(new Vertex(vertex));
+            }
+
+            foreach (Edge edge in graph._edgeList)
+            {
+                _edgeList.Add(new Edge(edge));
+            }
+        }
+
         public List<Vertex> getVertexList()
         {
             return _vertexList;
