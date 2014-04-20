@@ -148,9 +148,10 @@ namespace Kristofides.WidthSearchOptimization
             return report;
         }
 
-        public Graph GetLastBest()
+        ~WidthSearchOptimizator()
         {
-            return lastItemsList.modified;
+            itemsList.Clear();
+            pinaltyList.Clear();
         }
         
     }

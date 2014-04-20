@@ -318,7 +318,6 @@ namespace Kristofides
 
         private void button3_Click(object sender, RoutedEventArgs e)
         {
-            
             WidthSearchOptimizator optimizator = new WidthSearchOptimizator();
             loopControl = new List<List<int>>();
 
@@ -326,8 +325,6 @@ namespace Kristofides
             ListBoxItem lbi = new ListBoxItem();
             lbi.Content = report;
             BackupList.Items.Add(lbi);
-
-            //kristofidesSolution.SetModified(input);
             HighlightGraph(kristofidesSolution.Solve()._edgeList);
         }
 

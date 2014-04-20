@@ -8,7 +8,7 @@ namespace Kristofides.WidthSearchOptimization
 {
     struct Item
     {
-        public Graph modified;
+        //public Graph modified;
         public string pinaltyMethod;
         public int error;
         public double length;
@@ -16,18 +16,18 @@ namespace Kristofides.WidthSearchOptimization
 
         public Item(GraphStructure.Graph graph, string pinalty)
         {
-            modified = new Graph(graph);
+            //modified = new Graph(graph);
 
             pinaltyMethod = pinalty;
             error = 0;
             length = 0;
-            estimateError();
-            estimateLength();
+            estimateError(graph);
+            estimateLength(graph);
         }
 
-        private void estimateError()
+        private void estimateError(GraphStructure.Graph graph)
         {
-            GraphSolver.KristofidesSolver solver = new GraphSolver.KristofidesSolver(modified);
+            GraphSolver.KristofidesSolver solver = new GraphSolver.KristofidesSolver(graph);
             Graph skeleton = solver.Solve();
             error = 0;
             foreach (Vertex vertex in skeleton._vertexList)
@@ -36,9 +36,9 @@ namespace Kristofides.WidthSearchOptimization
             }
         }
 
-        private void estimateLength()
+        private void estimateLength(GraphStructure.Graph graph)
         {
-            GraphSolver.KristofidesSolver solver = new GraphSolver.KristofidesSolver(modified);
+            GraphSolver.KristofidesSolver solver = new GraphSolver.KristofidesSolver(graph);
             Graph skeleton = solver.Solve();
             length = 0;
             foreach (Edge edge in skeleton._edgeList)

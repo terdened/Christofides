@@ -28,7 +28,7 @@
             </MenuItem>
             <MenuItem Header="View">
                 <MenuItem Header="Windows">
-                    <MenuItem Name="isShowMatrix" Header="Graph matrix" IsChecked="True" IsCheckable="true" Click="ViewEdit_Click" ></MenuItem>
+                    <MenuItem Name="isShowMatrix" Header="Graph matrix" IsChecked="False" IsCheckable="true" Click="ViewEdit_Click" ></MenuItem>
                     <MenuItem Name="isShowGraph" Header="Graph visualisation" IsChecked="True" IsCheckable="true" Click="ViewEdit_Click"></MenuItem>
                 </MenuItem>
             </MenuItem>
