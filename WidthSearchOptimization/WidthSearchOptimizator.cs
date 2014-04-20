@@ -17,80 +17,132 @@ namespace Kristofides.WidthSearchOptimization
         {
             pinaltyList = new List<string>();
             pinaltyList.Add("positive1");
-            pinaltyList.Add("positive2");
-            pinaltyList.Add("positive3");
+            pinaltyList.Add("positive5");
+            pinaltyList.Add("positive10");
             pinaltyList.Add("negative1");
-            pinaltyList.Add("negative2");
-            pinaltyList.Add("negative3");
+            pinaltyList.Add("negative5");
+            pinaltyList.Add("negative10");
             pinaltyList.Add("combine1");
-            pinaltyList.Add("combine2");
-            pinaltyList.Add("combine3");
+            pinaltyList.Add("combine5");
+            pinaltyList.Add("combine10");
         }
 
         private void Pinalty(KristofidesSolver current, string method, double delta)
         {
-            KristofidesSolver solver = new KristofidesSolver(current);
+            KristofidesSolver solver = current;
             switch (method)
             {
                 case "positive1":
                     solver.PositivePenalty(1);
                     break;
-                case "positive2":
+                case "positive5":
                     solver.PositivePenalty(5);
                     break;
-                case "positive3":
+                case "positive10":
                     solver.PositivePenalty(10);
                     break;
                 case "negative1":
                     solver.NegativePenalty(1);
                     break;
-                case "negative2":
+                case "negative5":
                     solver.NegativePenalty(5);
                     break;
-                case "negative3":
+                case "negative10":
                     solver.NegativePenalty(10);
                     break;
                 case "combine1":
                     solver.CombinePenalty(1);
                     break;
-                case "combine2":
+                case "combine5":
                     solver.CombinePenalty(5);
                     break;
-                case "combine3":
+                case "combine10":
                     solver.CombinePenalty(10);
                     break;
             }
 
             Graph currentGraph = new Graph(solver.Solve());
             Item currentItem = new Item(currentGraph, method);
-            itemsList.Add(currentItem.error + delta, currentItem);
+            double Length = currentItem.length/10000;
+            Length += delta / 100000;
+            itemsList.Add(currentItem.error + Length, currentItem);
+        }
+
+        private void Pinalty(KristofidesSolver current, string method)
+        {
+            KristofidesSolver solver = current;
+            switch (method)
+            {
+                case "positive1":
+                    solver.PositivePenalty(1);
+                    break;
+                case "positive5":
+                    solver.PositivePenalty(5);
+                    break;
+                case "positive10":
+                    solver.PositivePenalty(10);
+                    break;
+                case "negative1":
+                    solver.NegativePenalty(1);
+                    break;
+                case "negative5":
+                    solver.NegativePenalty(5);
+                    break;
+                case "negative10":
+                    solver.NegativePenalty(10);
+                    break;
+                case "combine1":
+                    solver.CombinePenalty(1);
+                    break;
+                case "combine5":
+                    solver.CombinePenalty(5);
+                    break;
+                case "combine10":
+                    solver.CombinePenalty(10);
+                    break;
+            }
         }
 
         private void Step(KristofidesSolver current)
         {
             itemsList = new SortedList<double, Item>();
 
-            double delta = 0;
+            List<double> delta = new List<double>();
             foreach (var method in pinaltyList)
             {
-                Pinalty(current, method, delta);
-                delta += 0.0001;
+                Random randomer = new Random();
+                double randomDelta= randomer.NextDouble();
+                while (delta.Contains(randomDelta))
+                {
+                    randomDelta = randomer.NextDouble();
+                }
+
+                delta.Add(randomDelta);
             }
 
-            lastItemsList=itemsList.Values.First();
+            int i = 0;
+            foreach (var method in pinaltyList)
+            {
+                Pinalty(current, method, delta[i]);
+                i++;
+            }
+
+            lastItemsList=itemsList.First().Value;
         }
 
         private string CollectReport()
         {
-            return lastItemsList.error.ToString() + " " + lastItemsList.length.ToString() + " " + lastItemsList.pinaltyMethod;
-
+            return lastItemsList.pinaltyMethod;
         }
 
         public string Iteration(KristofidesSolver current)
         {
             string report="";
 
-            Step(current);
+            KristofidesSolver newSolver = new KristofidesSolver(current);
+            Step(newSolver);
+            Pinalty(current, lastItemsList.pinaltyMethod);
+
             report = CollectReport();
 
             return report;
