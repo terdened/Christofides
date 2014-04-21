@@ -29,39 +29,38 @@ namespace Kristofides.WidthSearchOptimization
 
         private void Pinalty(KristofidesSolver current, string method, double delta)
         {
-            KristofidesSolver solver = current;
             switch (method)
             {
                 case "positive1":
-                    solver.PositivePenalty(1);
+                    current.PositivePenalty(1);
                     break;
                 case "positive5":
-                    solver.PositivePenalty(5);
+                    current.PositivePenalty(5);
                     break;
                 case "positive10":
-                    solver.PositivePenalty(10);
+                    current.PositivePenalty(10);
                     break;
                 case "negative1":
-                    solver.NegativePenalty(1);
+                    current.NegativePenalty(1);
                     break;
                 case "negative5":
-                    solver.NegativePenalty(5);
+                    current.NegativePenalty(5);
                     break;
                 case "negative10":
-                    solver.NegativePenalty(10);
+                    current.NegativePenalty(10);
                     break;
                 case "combine1":
-                    solver.CombinePenalty(1);
+                    current.CombinePenalty(1);
                     break;
                 case "combine5":
-                    solver.CombinePenalty(5);
+                    current.CombinePenalty(5);
                     break;
                 case "combine10":
-                    solver.CombinePenalty(10);
+                    current.CombinePenalty(10);
                     break;
             }
 
-            Graph currentGraph = new Graph(solver.Solve());
+            Graph currentGraph = new Graph(current.Solve());
             Item currentItem = new Item(currentGraph, method);
             double Length = currentItem.length/10000;
             Length += delta / 100000;
@@ -132,7 +131,7 @@ namespace Kristofides.WidthSearchOptimization
 
         private string CollectReport()
         {
-            return lastItemsList.pinaltyMethod;
+            return lastItemsList.pinaltyMethod + " " + lastItemsList.error.ToString() + " " + lastItemsList.length.ToString();
         }
 
         public string Iteration(KristofidesSolver current)
