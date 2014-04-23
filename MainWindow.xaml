@@ -20,8 +20,8 @@
             <MenuItem Name="ResearchMenuItem" Header="Research" IsEnabled="False">
                 <MenuItem Name="GraphMenuItem" Header="Graph" IsEnabled="False">
                     <MenuItem Name="NewGraphMenuItem" Header="New graph" Click="MenuItemNewGraph_Click"></MenuItem>
-                    <MenuItem Name="OpenNewGraphMenuItem" Header="Open graph"></MenuItem>
-                    <MenuItem Name="SaveGraphMenuItem" Header="Save graph"></MenuItem>
+                    <MenuItem Name="OpenNewGraphMenuItem" Header="Open graph" Click="MenuItemOpenGraph_Click"></MenuItem>
+                    <MenuItem Name="SaveGraphMenuItem" Header="Save graph" Click="MenuItemSaveGraph_Click"></MenuItem>
                 </MenuItem>
                 <MenuItem Header="New research" Click="MenuItemNewResearch_Click"></MenuItem>
                 <MenuItem Header="Open research"></MenuItem>

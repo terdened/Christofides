@@ -2,15 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace Kristofides.GraphStructure
 {
+    [XmlType("Vertex")]
     public class Vertex
     {
+        [XmlElement]
         public int _id;
+        [XmlElement]
         public double _x;
+        [XmlElement]
         public double _y;
+        [XmlArrayItem("Edge")]
         public List<Edge> _edgeList;
+
+        public Vertex()
+        {
+        }
 
         public Vertex(int id,double x, double y)
         {

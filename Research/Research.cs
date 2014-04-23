@@ -46,5 +46,11 @@ namespace Kristofides.Research
             graph.generateGraph();
             timeUpdate = DateTime.Now;
         }
+
+        public void generateGraph(GraphStructure.Graph newGraph)
+        {
+            graph = newGraph;
+            timeUpdate = DateTime.Now;
+        }
     }
 }

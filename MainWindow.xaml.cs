@@ -12,6 +12,12 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
 using System.IO;
+using System.Xml.Serialization;
+using Kristofides.GraphStructure;
+using System.Xml;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
+
 namespace Kristofides
 {
 
@@ -91,6 +97,56 @@ namespace Kristofides
                 this.GraphMenuItem.IsEnabled = false;
                 //To do: init MainContent
             }
+        }
+
+        private void MenuItemSaveGraph_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = String.Format("XML-file|*{0}", "*.xml");
+            saveFileDialog.DefaultExt = "xml";
+            saveFileDialog.AddExtension = true;
+
+            if (saveFileDialog.ShowDialog(this) == true)
+            {
+                try
+                {
+                    File.Delete(saveFileDialog.FileName);
+                }
+                catch
+                {
+
+                }
+
+                XmlSerializer serializer = new XmlSerializer(typeof(Graph));
+                TextWriter writer = new StreamWriter(saveFileDialog.FileName);
+                serializer.Serialize(writer, _research.getGraph());
+                writer.Close();
+            }
+        }
+
+        private void MenuItemOpenGraph_Click(object sender, RoutedEventArgs e)
+        {
+           OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = String.Format("Xml-file|*{0}", "*.xml");
+            openFileDialog.DefaultExt = "xml";
+            openFileDialog.AddExtension = true;
+
+            if (openFileDialog.ShowDialog(this) == true)
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(Graph));
+                TextReader reader = File.OpenText(openFileDialog.FileName);// (openFileDialog.FileName);
+                Graph newGraph = (Graph)serializer.Deserialize(reader);
+                reader.Close();
+
+                if (newGraph != null)
+                {
+                    _research.generateGraph(newGraph);
+                    _research.getGraph().updateEdgeVertexs();
+                    this.MainContent.Content = new ResearchPage(_research, this.isShowMatrix.IsChecked, this.isShowGraph.IsChecked);
+                }
+            }
+
+                
         }
 
         private void MenuItemNewResearch_Click(object sender, RoutedEventArgs e)

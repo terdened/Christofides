@@ -2,17 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
+using System.Runtime.Serialization;
 
 namespace Kristofides.GraphStructure
 {
+    [Serializable]
     public class Graph
     {
-        public List<Vertex> _vertexList;
-        public List<Edge> _edgeList;
-        private int _vertexCount;
-        private int _minEdge;
-        private int _maxEdge;
 
+        [XmlArrayItem("Vertex")]
+        public List<Vertex> _vertexList;
+
+        [XmlArrayItem("Edge")]
+        public List<Edge> _edgeList;
+
+        [XmlElement]
+        public int _vertexCount;
+        [XmlElement]
+        public int _minEdge;
+        [XmlElement]
+        public int _maxEdge;
 
         public Graph(int vertexCount, int minEdge, int maxEdge)
         {
@@ -175,6 +185,22 @@ namespace Kristofides.GraphStructure
                     {
                         vertex._edgeList.Add(new Edge(vertex, edge._a));
                     }
+                }
+            }
+        }
+
+        public void updateEdgeVertexs()
+        {
+            foreach(Edge edge in _edgeList)
+            {
+                edge.updateVertex(_vertexList);
+            }
+
+            foreach (Vertex vertex in _vertexList)
+            {
+                foreach (Edge edge in vertex._edgeList)
+                {
+                    edge.updateVertex(_vertexList);
                 }
             }
         }
