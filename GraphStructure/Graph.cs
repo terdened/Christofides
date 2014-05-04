@@ -77,7 +77,7 @@ namespace Kristofides.GraphStructure
                 result[i]=new double[_vertexList.Count];
                 for (int j = 0; j < _vertexList.Count; j++)
                 {
-                    result[i][j] = _vertexList[i].GetLengthToVertexById(_vertexList[j]._id);
+                    result[i][j] = 0;// _vertexList[i].GetLengthToVertexById(_vertexList[j]._id);
                 }
             }
 
@@ -122,22 +122,23 @@ namespace Kristofides.GraphStructure
 
         public List<Edge> getEdges(Vertex v)
         {
-            foreach (Vertex ver in _vertexList)
+            List<Edge> result = new List<Edge>();
+            foreach (Edge edge in _edgeList)
             {
-                if ((ver._x == v._x) && (ver._y == v._y))
+                if((edge._a._id==v._id)||((edge._b._id==v._id)))
                 {
-                    return ver._edgeList;
+                    result.Add(edge);
                 }
             }
 
-            return null;
+            return result;
         }
 
 
         public void addVertex(Vertex v)
         {
             Vertex newVertex = new Vertex(v._id,v._x,v._y);
-            newVertex._edgeList = new List<Edge>();
+            //newVertex._edgeList = new List<Edge>();
             _vertexList.Add(newVertex);
         }
 
@@ -162,12 +163,9 @@ namespace Kristofides.GraphStructure
 
             Edge newEdge = new Edge(a, b);
             this._edgeList.Add(newEdge);
-            a._edgeList.Add(newEdge);
-            Edge newEdgeb = new Edge(b, a);
-            b._edgeList.Add(newEdgeb);
         }
 
-        public void updateVertex()
+        /*public void updateVertex()
         {
             int a = 0;
             foreach (Vertex vertex in _vertexList)
@@ -187,21 +185,13 @@ namespace Kristofides.GraphStructure
                     }
                 }
             }
-        }
+        }*/
 
         public void updateEdgeVertexs()
         {
             foreach(Edge edge in _edgeList)
             {
                 edge.updateVertex(_vertexList);
-            }
-
-            foreach (Vertex vertex in _vertexList)
-            {
-                foreach (Edge edge in vertex._edgeList)
-                {
-                    edge.updateVertex(_vertexList);
-                }
             }
         }
 
@@ -221,7 +211,7 @@ namespace Kristofides.GraphStructure
             {
                 int count = (int)(rand.NextDouble() * (_maxEdge - _minEdge)) + _minEdge;
 
-                while (_vertexList[i]._edgeList.Count < count)
+                while (getEdges(_vertexList[i]).Count < count)
                 {
                     Boolean isFree = false;
                     int secound = (int)(rand.NextDouble() * _vertexCount);
@@ -229,9 +219,9 @@ namespace Kristofides.GraphStructure
                     while (!isFree)
                     {
                         bool isRepeat = false;
-                        for (int j = 0; j < _vertexList[i]._edgeList.Count; j++)
+                        foreach (Edge edge in getEdges(_vertexList[i]))
                         {
-                            if (_vertexList[i]._edgeList[j]._b._id == secound)
+                            if ((edge._b._id == secound)||(edge._a._id == secound))
                                 isRepeat = true;
                         }
 
@@ -247,8 +237,8 @@ namespace Kristofides.GraphStructure
                         
                     }
 
-                    _vertexList[i].AddEdge(getVertexById(secound));
-                    _vertexList[secound].AddEdge(getVertexById(i));
+                    //_vertexList[i].AddEdge(getVertexById(secound));
+                    //_vertexList[secound].AddEdge(getVertexById(i));
                     _edgeList.Add(new Edge(_vertexList[i], _vertexList[secound]));
                 }
             }

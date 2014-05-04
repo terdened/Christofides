@@ -15,7 +15,7 @@ namespace Kristofides.GraphSolver
         {
             original = new Graph(graph);
             modified = new Graph(original);
-            FirstPenalty(1000);
+            FirstPenalty(5000);
         }
 
         public KristofidesSolver(KristofidesSolver solver)
@@ -53,7 +53,7 @@ namespace Kristofides.GraphSolver
         public Graph GetSkeleton(Graph inputGraph)
         {
             Graph result= new Graph();
-            result.updateVertex();
+            //result.updateVertex();
             SortedList<double, Edge> edgeSortedList = new SortedList<double, Edge>();
 
             foreach (Edge edge in inputGraph.getEdges())
@@ -87,20 +87,15 @@ namespace Kristofides.GraphSolver
             Graph skeleton = GetSkeleton(modified);
             for (int i = 0; i < modified.getVertex().Count; i++)
             {
-                if (skeleton.getVertex()[i]._edgeList.Count > 2)
+                if (skeleton.getEdges(skeleton.getVertex()[i]).Count > 2)
                 {
                     int vertexId = skeleton.getVertex()[i]._id;
-
-                    for (int j = 0; j < modified.getVertexById(vertexId)._edgeList.Count; j++)
-                    {
-                        modified.getVertexById(vertexId)._edgeList[j]._length += value * (skeleton.getVertex()[i]._edgeList.Count-2);
-                    }
 
                     for (int j = 0; j < modified.getEdgeList().Count; j++)
                     {
                         if ((modified._edgeList[j]._a._id == vertexId) || (modified._edgeList[j]._b._id == vertexId))
                         {
-                            modified._edgeList[j]._length += value * (skeleton.getVertex()[i]._edgeList.Count - 2);
+                            modified._edgeList[j]._length += value * (skeleton.getEdges(skeleton.getVertex()[i]).Count - 2);
                         }
                     }
                 }
@@ -112,14 +107,9 @@ namespace Kristofides.GraphSolver
             Graph skeleton = GetSkeleton(modified);
             for (int i = 0; i < modified.getVertex().Count; i++)
             {
-                if (skeleton.getVertex()[i]._edgeList.Count == 1)
+                if (skeleton.getEdges(skeleton.getVertex()[i]).Count == 1)
                 {
                     int vertexId = skeleton.getVertex()[i]._id;
-
-                    for (int j = 0; j < modified.getVertexById(vertexId)._edgeList.Count; j++)
-                    {
-                        modified.getVertexById(vertexId)._edgeList[j]._length -= value;
-                    }
 
                     for (int j = 0; j < modified.getEdgeList().Count; j++)
                     {
@@ -137,14 +127,9 @@ namespace Kristofides.GraphSolver
             Graph skeleton = GetSkeleton(modified);
             for (int i = 0; i < modified.getVertex().Count; i++)
             {
-                if (skeleton.getVertex()[i]._edgeList.Count == 1)
+                if (skeleton.getEdges(skeleton.getVertex()[i]).Count == 1)
                 {
                     int vertexId = skeleton.getVertex()[i]._id;
-
-                    for (int j = 0; j < modified.getVertexById(vertexId)._edgeList.Count; j++)
-                    {
-                        modified.getVertexById(vertexId)._edgeList[j]._length -= value;
-                    }
 
                     for (int j = 0; j < modified.getEdgeList().Count; j++)
                     {
@@ -155,20 +140,15 @@ namespace Kristofides.GraphSolver
                     }
                 }
 
-                if (skeleton.getVertex()[i]._edgeList.Count > 2)
+                if (skeleton.getEdges(skeleton.getVertex()[i]).Count > 2)
                 {
                     int vertexId = skeleton.getVertex()[i]._id;
-
-                    for (int j = 0; j < modified.getVertexById(vertexId)._edgeList.Count; j++)
-                    {
-                        modified.getVertexById(vertexId)._edgeList[j]._length += value * (skeleton.getVertex()[i]._edgeList.Count - 2);
-                    }
 
                     for (int j = 0; j < modified.getEdgeList().Count; j++)
                     {
                         if ((modified._edgeList[j]._a._id == vertexId) || (modified._edgeList[j]._b._id == vertexId))
                         {
-                            modified._edgeList[j]._length += value * (skeleton.getVertex()[i]._edgeList.Count - 2);
+                            modified._edgeList[j]._length += value * (skeleton.getEdges(skeleton.getVertex()[i]).Count - 2);
                         }
                     }
                 }
@@ -178,10 +158,6 @@ namespace Kristofides.GraphSolver
         private void FirstPenalty(double value)
         {
             int lastVertexId = original._vertexList.Count - 1;
-            for (int j = 0; j < modified.getVertexById(0)._edgeList.Count; j++)
-            {
-                modified.getVertexById(0)._edgeList[j]._length += value;
-            }
 
             for (int j = 0; j < modified.getEdgeList().Count; j++)
             {
@@ -189,11 +165,6 @@ namespace Kristofides.GraphSolver
                 {
                     modified._edgeList[j]._length += value;
                 }
-            }
-
-            for (int j = 0; j < modified.getVertexById(lastVertexId)._edgeList.Count; j++)
-            {
-                modified.getVertexById(lastVertexId)._edgeList[j]._length += value;
             }
 
             for (int j = 0; j < modified.getEdgeList().Count; j++)

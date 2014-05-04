@@ -32,7 +32,7 @@ namespace Kristofides.WidthSearchOptimization
             error = 0;
             foreach (Vertex vertex in skeleton._vertexList)
             {
-                error += Math.Abs(vertex._edgeList.Count-2);
+                error += Math.Abs(skeleton.getEdges(vertex).Count - 2);
             }
         }
 

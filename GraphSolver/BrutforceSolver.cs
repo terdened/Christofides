@@ -24,7 +24,7 @@ namespace Kristofides.GraphSolver
             start.Add(original.getVertexById(0));
             List<List<Vertex>> allPaths= new List<List<Vertex>>();
             allPaths = Recurse(start);
-            allPaths = FilterByVertexCount(allPaths);
+            //allPaths = FilterByVertexCount(allPaths);
             allPaths = FilterByDestination(allPaths);
             double[] pathsLength = new double[allPaths.Count];
 
@@ -97,7 +97,13 @@ namespace Kristofides.GraphSolver
             List<Edge> tempEdges = original.getEdges(inputPath.Last());
             for (int i = 0; i < tempEdges.Count; i++)
             {
-                if (CheckAccess(inputPath, tempEdges[i]._b))
+                Vertex secoundVertex=null;
+                if (tempEdges[i]._a._id == inputPath.Last()._id)
+                    secoundVertex = tempEdges[i]._b;
+                else
+                    secoundVertex = tempEdges[i]._a;
+
+                if (CheckAccess(inputPath, secoundVertex))
                 {
                     List<Vertex> tempPath = new List<Vertex>();
 
@@ -106,13 +112,13 @@ namespace Kristofides.GraphSolver
                         tempPath.Add(inputPath[j]);
                     }
 
-                    tempPath.Add(tempEdges[i]._b);
+                    tempPath.Add(secoundVertex);
                     result.AddRange(Recurse(tempPath));
                     isLast = false;
                 }
             }
 
-            if (isLast)
+            if ((isLast) && (inputPath.Count == original._vertexList.Count))
             {
                 result.Add(inputPath);
             }

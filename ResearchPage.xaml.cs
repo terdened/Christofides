@@ -190,8 +190,8 @@ namespace Kristofides
             string title = "";
             foreach (Vertex vertex in skeleton._vertexList)
             {
-                tempVertexesDegree.Add(vertex._edgeList.Count);
-                title += vertex._edgeList.Count.ToString();
+                tempVertexesDegree.Add(skeleton.getEdges(vertex).Count);
+                title += skeleton.getEdges(vertex).Count.ToString();
             }
 
             if (loopControl.Count > 0)
@@ -269,7 +269,7 @@ namespace Kristofides
             {
                 foreach (Vertex vertex in skeleton._vertexList)
                 {
-                    if (vertex._edgeList.Count > 2)
+                    if (skeleton.getEdges(vertex).Count > 2)
                     {
                         result = false;
                         break;

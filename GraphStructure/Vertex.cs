@@ -15,8 +15,8 @@ namespace Kristofides.GraphStructure
         public double _x;
         [XmlElement]
         public double _y;
-        [XmlArrayItem("Edge")]
-        public List<Edge> _edgeList;
+        //[XmlArrayItem("Edge")]
+        //public List<Edge> _edgeList;
 
         public Vertex()
         {
@@ -27,7 +27,7 @@ namespace Kristofides.GraphStructure
             _id = id;
             _x = x;
             _y = y;
-            _edgeList = new List<Edge>();
+            //_edgeList = new List<Edge>();
         }
 
         public Vertex(Vertex vertex)
@@ -35,19 +35,19 @@ namespace Kristofides.GraphStructure
             _id = vertex._id;
             _x = vertex._x;
             _y = vertex._y;
-            _edgeList = new List<Edge>();
+            /*_edgeList = new List<Edge>();
             foreach (Edge edge in vertex._edgeList)
             {
                 _edgeList.Add(new Edge(edge));
-            }
+            }*/
         }
 
-        public void AddEdge(Vertex secoundVertex)
+        /*public void AddEdge(Vertex secoundVertex)
         {
-            _edgeList.Add(new Edge(this, secoundVertex));
-        }
+            //_edgeList.Add(new Edge(this, secoundVertex));
+        }*/
 
-        public double GetLengthToVertexById(int id)
+        /*public double GetLengthToVertexById(int id)
         {
             double result=0;
             for (int i = 0; i < _edgeList.Count; i++)
@@ -57,6 +57,6 @@ namespace Kristofides.GraphStructure
             }
 
             return result;
-        }
+        }*/
     }
 }
