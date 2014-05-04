@@ -15,7 +15,7 @@ namespace Kristofides.GraphSolver
         {
             original = new Graph(graph);
             modified = new Graph(original);
-            FirstPenalty(5000);
+            FirstPenalty(100000);
         }
 
         public KristofidesSolver(KristofidesSolver solver)
