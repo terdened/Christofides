@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="400"
+      d:DesignHeight="430" d:DesignWidth="399"
 	Title="ResearchPage">
     <Grid HorizontalAlignment="Left">
         <Grid.RowDefinitions>
@@ -16,6 +16,7 @@
         </Grid.ColumnDefinitions>
         <Grid HorizontalAlignment="Left" Grid.Column="0" Grid.Row="0">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -45,21 +46,24 @@
                 <Button Content="Kristofides" Margin="3" Grid.Column="2" Grid.Row="0"   Height="23" HorizontalAlignment="Left" Name="button3" VerticalAlignment="Top" Width="100" Click="button3_Click" />
                 <Label Content="Positive penalty:" Margin="0" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" />
                 <Button Content="Penalty(...)" Margin="3" Grid.Column="0" Grid.Row="2"   Height="23" HorizontalAlignment="Left" Name="button4" VerticalAlignment="Top" Width="100" Click="button4_Click" />
-                <Button Content="Penalty(10)" Margin="3" Grid.Column="1" Grid.Row="2"   Height="23" HorizontalAlignment="Left" Name="button5" VerticalAlignment="Top" Width="100" Click="button5_Click" />
+                <Button Content="Penalty(%)" Margin="3" Grid.Column="1" Grid.Row="2"   Height="23" HorizontalAlignment="Left" Name="button5" VerticalAlignment="Top" Width="100" Click="button5_Click" />
                 <Button Content="Penalty(while)" Margin="3" Grid.Column="2" Grid.Row="2"   Height="23" HorizontalAlignment="Left" Name="button6" VerticalAlignment="Top" Width="100" Click="button6_Click" />
                 <Label Content="Negative penalty:" Margin="0" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" />
                 <Button Content="Penalty(...)" Margin="3" Grid.Column="0" Grid.Row="4"   Height="23" HorizontalAlignment="Left" Name="button7" VerticalAlignment="Top" Width="100" Click="button7_Click" />
-                <Button Content="Penalty(10)" Margin="3" Grid.Column="1" Grid.Row="4"   Height="23" HorizontalAlignment="Left" Name="button8" VerticalAlignment="Top" Width="100" Click="button8_Click" />
+                <Button Content="Penalty(%)" Margin="3" Grid.Column="1" Grid.Row="4"   Height="23" HorizontalAlignment="Left" Name="button8" VerticalAlignment="Top" Width="100" Click="button8_Click" />
                 <Button Content="Penalty(while)" Margin="3" Grid.Column="2" Grid.Row="4"   Height="23" HorizontalAlignment="Left" Name="button9" VerticalAlignment="Top" Width="100" Click="button9_Click" />
                 <Label Content="Combine penalty:" Margin="0" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Center" />
                 <Button Content="Penalty(...)" Margin="3" Grid.Column="0" Grid.Row="6"   Height="23" HorizontalAlignment="Left" Name="button10" VerticalAlignment="Top" Width="100" Click="button10_Click" />
-                <Button Content="Penalty(10)" Margin="3" Grid.Column="1" Grid.Row="6"   Height="23" HorizontalAlignment="Left" Name="button11" VerticalAlignment="Top" Width="100" Click="button11_Click" />
+                <Button Content="Penalty(%)" Margin="3" Grid.Column="1" Grid.Row="6"   Height="23" HorizontalAlignment="Left" Name="button11" VerticalAlignment="Top" Width="100" Click="button11_Click" />
                 <Button Content="Penalty(while)" Margin="3" Grid.Column="2" Grid.Row="6"   Height="23" HorizontalAlignment="Left" Name="button12" VerticalAlignment="Top" Width="100" Click="button12_Click" />
 
             </Grid>
             <ListBox Grid.Column="0" Grid.Row="1" Width="300" Height="200" Name="BackupList"/>
-            <Grid Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left">
+            <Slider Grid.Column="0" Margin="3" Grid.Row="2" Width="300" Name="StepValue" Interval="1" Maximum="100" Minimum="1" TickPlacement="None" TickFrequency="1" 
+    IsSnapToTickEnabled="True" ValueChanged="SliderValueChanged" SmallChange="1" />
+            <Grid Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -68,12 +72,15 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Grid.Row="0" Margin="3" Content="Create date:" HorizontalAlignment="Left" Name="CreateDateLabel" VerticalAlignment="Top" />
-                <Label Grid.Column="0" Grid.Row="1" Margin="3" Content="Update date:" HorizontalAlignment="Left" Name="UpdateDateLabel" VerticalAlignment="Top" />
-                <Label Grid.Column="1" Grid.Row="0" Margin="3" Content="00:00 00.00.0000" HorizontalAlignment="Left" Name="CreateDate" VerticalAlignment="Top" />
-                <Label Grid.Column="1" Grid.Row="1" Margin="3" Content="00:00 00.00.0000" HorizontalAlignment="Left" Name="UpdateDate" VerticalAlignment="Top" />
-                <Label  Content="Graph matrix:"  Grid.Row="2" Grid.Column="0"/>
-                <Label  Name="MatrixGrid" Grid.Row="2" Grid.Column="1"/>
+                <Label Grid.Column="0" Grid.Row="0" Margin="3" Content="Current step:" HorizontalAlignment="Left" Name="CurrentStepLabel" VerticalAlignment="Top" />
+                <Label Grid.Column="0" Grid.Row="1" Margin="3" Content="Avarrange length" HorizontalAlignment="Left" Name="AvarrangeLengthLabel" VerticalAlignment="Top" />
+                <Label Grid.Column="1" Grid.Row="0" Margin="3" Content="1%" HorizontalAlignment="Left" Name="CurrentStep" VerticalAlignment="Top" />
+                <Label Grid.Column="1" Grid.Row="1" Margin="3" Content="0" HorizontalAlignment="Left" Name="AvarrangeLength" VerticalAlignment="Top" />
+                <Label Grid.Column="0" Grid.Row="2" Margin="3" Content="StepsCount" HorizontalAlignment="Left" Name="RecordsCountLabel" VerticalAlignment="Top" />
+                <Label Grid.Column="1" Grid.Row="2" Margin="3" Content="0" HorizontalAlignment="Left" Name="RecordsCount" VerticalAlignment="Top" />
+
+                <Label  Content="Graph matrix:"  Grid.Row="3" Grid.Column="0"/>
+                <Label  Name="MatrixGrid" Grid.Row="3" Grid.Column="1"/>
             </Grid>
             
         </Grid>

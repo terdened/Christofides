@@ -36,6 +36,7 @@ namespace Kristofides
         private List<List<int>> loopControl;
         private int maxLoopControlDeep = 8;
         private int minLoopControlDeep = 3;
+        private double avarageLength;
         #endregion
 
         #region public methods
@@ -43,10 +44,8 @@ namespace Kristofides
         {
             InitializeComponent();
             _research = research;
-            this.CreateDate.Content = _research.getTimeCreate().ToString();
-            this.UpdateDate.Content = _research.getTimeUpdate().ToString();
-
             updateGraph(isShowMatrix, isShowGraph);
+            
         }
 
         public void updateGraph(Boolean isShowMatrix, Boolean isShowGraph)
@@ -73,6 +72,9 @@ namespace Kristofides
             {
                 this.GraphCanvas.Children.Clear();
             }
+
+            if(_research.getGraph()!=null)
+                EstimateAvarrageLength(); 
         }
 
         public void ShowMatrix()
@@ -123,6 +125,18 @@ namespace Kristofides
         #endregion
 
         #region private methods
+
+        private void EstimateAvarrageLength()
+        {
+            avarageLength = 0;
+            foreach (var edge in _research.getGraph()._edgeList)
+            {
+                avarageLength += edge._length;
+            }
+            avarageLength /= _research.getGraph()._edgeList.Count;
+            AvarrangeLength.Content = avarageLength.ToString();
+        }
+
         private void HighlightGraph(List<Edge> edges)
         {
             ClearHiglitedEdges();
@@ -318,162 +332,223 @@ namespace Kristofides
 
         private void button3_Click(object sender, RoutedEventArgs e)
         {
-            WidthSearchOptimizator optimizator = new WidthSearchOptimizator();
-            loopControl = new List<List<int>>();
+            if (!IsSolved(kristofidesSolution.Solve()))
+            {
+                WidthSearchOptimizator optimizator = new WidthSearchOptimizator();
+                loopControl = new List<List<int>>();
 
-            string report = optimizator.Iteration(kristofidesSolution);
-            ListBoxItem lbi = new ListBoxItem();
-            lbi.Content = report;
-            BackupList.Items.Add(lbi);
-            HighlightGraph(kristofidesSolution.Solve()._edgeList);
+                string report = optimizator.Iteration(kristofidesSolution);
+                ListBoxItem lbi = new ListBoxItem();
+                lbi.Content = report;
+                BackupList.Items.Add(lbi);
+                HighlightGraph(kristofidesSolution.Solve()._edgeList);
+                IsSolved(kristofidesSolution.Solve());
+            }
         }
 
         private void button4_Click(object sender, RoutedEventArgs e)
         {
-            string penaltyValue = Microsoft.VisualBasic.Interaction.InputBox(
-                "Input penalty value", "Input", "5", 100, 100);
-
-            if (kristofidesSolution != null)
+            if (!IsSolved(kristofidesSolution.Solve()))
             {
-                kristofidesSolution.PositivePenalty(double.Parse(penaltyValue));
-                List<Edge> edges = kristofidesSolution.Solve()._edgeList;
-                HighlightGraph(edges);
-            }
+                string penaltyValue = Microsoft.VisualBasic.Interaction.InputBox(
+                    "Input penalty value", "Input", "5", 100, 100);
 
-            updateBackup(kristofidesSolution.GetModified());
-        }
-
-        private void button5_Click(object sender, RoutedEventArgs e)
-        {
-            double penaltyValue = 10;
-
-            if (kristofidesSolution != null)
-            {
-                kristofidesSolution.PositivePenalty(penaltyValue);
-                List<Edge> edges = kristofidesSolution.GetSkeleton(kristofidesSolution.GetModified())._edgeList;
-                HighlightGraph(edges);
-            }
-
-            updateBackup(kristofidesSolution.GetModified());
-        }
-
-        private void button6_Click(object sender, RoutedEventArgs e)
-        {
-            string penaltyValue = Microsoft.VisualBasic.Interaction.InputBox(
-                "Input penalty value", "Input", "5", 100, 100);
-
-            if (kristofidesSolution != null)
-            {
-                loopControl.Clear();
-                BackupList.Items.Clear();
-                Graph skeleton = null;
-                while (!IsSolved(skeleton) && !IsLooped())
+                if (kristofidesSolution != null)
                 {
                     kristofidesSolution.PositivePenalty(double.Parse(penaltyValue));
                     List<Edge> edges = kristofidesSolution.Solve()._edgeList;
                     HighlightGraph(edges);
-                    updateBackup(kristofidesSolution.GetModified());
+                    IsSolved(kristofidesSolution.Solve());
+                }
+
+                AddRecord("positive " + penaltyValue.ToString());
+            }
+        }
+
+        private void button5_Click(object sender, RoutedEventArgs e)
+        {
+            if (!IsSolved(kristofidesSolution.Solve()))
+            {
+                double penaltyValue = GetStep();
+
+                if (kristofidesSolution != null)
+                {
+                    kristofidesSolution.PositivePenalty(penaltyValue);
+                    List<Edge> edges = kristofidesSolution.GetSkeleton(kristofidesSolution.GetModified())._edgeList;
+                    HighlightGraph(edges);
+                    IsSolved(kristofidesSolution.Solve());
+                }
+
+                AddRecord("positive " + penaltyValue.ToString());
+            }
+        }
+
+        private void button6_Click(object sender, RoutedEventArgs e)
+        {
+            if (!IsSolved(kristofidesSolution.Solve()))
+            {
+                string penaltyValue = Microsoft.VisualBasic.Interaction.InputBox(
+                    "Input penalty value", "Input", "5", 100, 100);
+
+                if (kristofidesSolution != null)
+                {
+                    loopControl.Clear();
+                    BackupList.Items.Clear();
+                    Graph skeleton = null;
+                    while (!IsSolved(skeleton) && !IsLooped())
+                    {
+                        kristofidesSolution.PositivePenalty(double.Parse(penaltyValue));
+                        List<Edge> edges = kristofidesSolution.Solve()._edgeList;
+                        HighlightGraph(edges);
+                        AddRecord("positive " + penaltyValue.ToString());
+                    }
                 }
             }
-
         }
 
         private void button7_Click(object sender, RoutedEventArgs e)
         {
-            string penaltyValue = Microsoft.VisualBasic.Interaction.InputBox(
-                "Input penalty value", "Input", "5", 100, 100);
-
-            if (kristofidesSolution != null)
+            if (!IsSolved(kristofidesSolution.Solve()))
             {
-                kristofidesSolution.NegativePenalty(double.Parse(penaltyValue));
-                List<Edge> edges = kristofidesSolution.Solve()._edgeList;
-                HighlightGraph(edges);
-            }
+                string penaltyValue = Microsoft.VisualBasic.Interaction.InputBox(
+                    "Input penalty value", "Input", "5", 100, 100);
 
-            updateBackup(kristofidesSolution.GetModified());
-        }
-
-        private void button8_Click(object sender, RoutedEventArgs e)
-        {
-            double penaltyValue = 10;
-
-            if (kristofidesSolution != null)
-            {
-                kristofidesSolution.NegativePenalty(penaltyValue);
-                List<Edge> edges = kristofidesSolution.Solve()._edgeList;
-                HighlightGraph(edges);
-            }
-
-            updateBackup(kristofidesSolution.GetModified());
-        }
-
-        private void button9_Click(object sender, RoutedEventArgs e)
-        {
-            string penaltyValue = Microsoft.VisualBasic.Interaction.InputBox(
-                "Input penalty value", "Input", "5", 100, 100);
-
-            if (kristofidesSolution != null)
-            {
-
-                loopControl.Clear();
-                BackupList.Items.Clear();
-                Graph skeleton = null;
-                while (!IsSolved(skeleton) && !IsLooped())
+                if (kristofidesSolution != null)
                 {
                     kristofidesSolution.NegativePenalty(double.Parse(penaltyValue));
                     List<Edge> edges = kristofidesSolution.Solve()._edgeList;
                     HighlightGraph(edges);
-                    updateBackup(kristofidesSolution.GetModified());
+                    IsSolved(kristofidesSolution.Solve());
+                }
+
+                AddRecord("negative " + penaltyValue.ToString());
+            }
+        }
+
+        private void button8_Click(object sender, RoutedEventArgs e)
+        {
+            if (!IsSolved(kristofidesSolution.Solve()))
+            {
+                double penaltyValue = GetStep();
+
+                if (kristofidesSolution != null)
+                {
+                    kristofidesSolution.NegativePenalty(penaltyValue);
+                    List<Edge> edges = kristofidesSolution.Solve()._edgeList;
+                    HighlightGraph(edges);
+                    IsSolved(kristofidesSolution.Solve());
+                }
+
+                AddRecord("negative " + penaltyValue.ToString());
+            }
+        }
+
+        private void button9_Click(object sender, RoutedEventArgs e)
+        {
+            if (!IsSolved(kristofidesSolution.Solve()))
+            {
+                string penaltyValue = Microsoft.VisualBasic.Interaction.InputBox(
+                    "Input penalty value", "Input", "5", 100, 100);
+
+                if (kristofidesSolution != null)
+                {
+
+                    loopControl.Clear();
+                    BackupList.Items.Clear();
+                    Graph skeleton = null;
+                    while (!IsSolved(skeleton) && !IsLooped())
+                    {
+                        kristofidesSolution.NegativePenalty(double.Parse(penaltyValue));
+                        List<Edge> edges = kristofidesSolution.Solve()._edgeList;
+                        HighlightGraph(edges);
+                        AddRecord("negative " + penaltyValue.ToString());
+                    }
                 }
             }
         }
 
         private void button10_Click(object sender, RoutedEventArgs e)
         {
-            string penaltyValue = Microsoft.VisualBasic.Interaction.InputBox(
-                "Input penalty value", "Input", "5", 100, 100);
-
-            if (kristofidesSolution != null)
+            if (!IsSolved(kristofidesSolution.Solve()))
             {
-                kristofidesSolution.CombinePenalty(double.Parse(penaltyValue));
-                List<Edge> edges = kristofidesSolution.Solve()._edgeList;
-                HighlightGraph(edges);
-            }
+                string penaltyValue = Microsoft.VisualBasic.Interaction.InputBox(
+                    "Input penalty value", "Input", "5", 100, 100);
 
-            updateBackup(kristofidesSolution.GetModified());
-        }
-
-        private void button11_Click(object sender, RoutedEventArgs e)
-        {
-            double penaltyValue = 10;
-
-            if (kristofidesSolution != null)
-            {
-                kristofidesSolution.CombinePenalty(penaltyValue);
-                List<Edge> edges = kristofidesSolution.Solve()._edgeList;
-                HighlightGraph(edges);
-            }
-
-            updateBackup(kristofidesSolution.GetModified());
-        }
-
-        private void button12_Click(object sender, RoutedEventArgs e)
-        {
-            string penaltyValue = Microsoft.VisualBasic.Interaction.InputBox(
-                "Input penalty value", "Input", "5", 100, 100);
-
-            if (kristofidesSolution != null)
-            {
-                loopControl.Clear();
-                BackupList.Items.Clear();
-                Graph skeleton = null;
-                while (!IsSolved(skeleton) && !IsLooped())
+                if (kristofidesSolution != null)
                 {
                     kristofidesSolution.CombinePenalty(double.Parse(penaltyValue));
                     List<Edge> edges = kristofidesSolution.Solve()._edgeList;
                     HighlightGraph(edges);
-                    updateBackup(kristofidesSolution.GetModified());
+                    IsSolved(kristofidesSolution.Solve());
                 }
+
+                AddRecord("combine " + penaltyValue.ToString());
+            }
+        }
+
+        private void button11_Click(object sender, RoutedEventArgs e)
+        {
+            if (!IsSolved(kristofidesSolution.Solve()))
+            {
+                double penaltyValue = GetStep();
+
+                if (kristofidesSolution != null)
+                {
+                    kristofidesSolution.CombinePenalty(penaltyValue);
+                    List<Edge> edges = kristofidesSolution.Solve()._edgeList;
+                    HighlightGraph(edges);
+                    IsSolved(kristofidesSolution.Solve());
+                }
+
+                AddRecord("combine " + penaltyValue.ToString());
+            }
+        }
+
+        private void button12_Click(object sender, RoutedEventArgs e)
+        {
+            if (!IsSolved(kristofidesSolution.Solve()))
+            {
+                string penaltyValue = Microsoft.VisualBasic.Interaction.InputBox(
+                    "Input penalty value", "Input", "5", 100, 100);
+
+                if (kristofidesSolution != null)
+                {
+                    loopControl.Clear();
+                    BackupList.Items.Clear();
+                    Graph skeleton = null;
+                    while (!IsSolved(skeleton) && !IsLooped())
+                    {
+                        kristofidesSolution.CombinePenalty(double.Parse(penaltyValue));
+                        List<Edge> edges = kristofidesSolution.Solve()._edgeList;
+                        HighlightGraph(edges);
+                        AddRecord("combine " + penaltyValue);
+                    }
+                }
+            }
+        }
+
+        private void AddRecord(string content)
+        {
+            ListBoxItem lbi = new ListBoxItem();
+            lbi.Content = content;
+            BackupList.Items.Add(lbi);
+
+            RecordsCount.Content = BackupList.Items.Count;
+        }
+
+        private double GetStep()
+        {
+            double result = avarageLength / 100;
+            result *= StepValue.Value;
+            return result;
+        }
+
+        private void SliderValueChanged(object sender, RoutedEventArgs e)
+        {
+            if (sender != null && CurrentStep!=null)
+            {
+                Slider slider = (Slider)sender;
+                CurrentStep.Content = slider.Value.ToString() + "%";
             }
         }
         #endregion

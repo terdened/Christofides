@@ -1,7 +1,6 @@
 C:\Dissertation\Kristofides\Kristofides\Kristofides\bin\Release\Kristofides.exe.config
 C:\Dissertation\Kristofides\Kristofides\Kristofides\bin\Release\Kristofides.exe
 C:\Dissertation\Kristofides\Kristofides\Kristofides\bin\Release\Kristofides.pdb
-C:\Dissertation\Kristofides\Kristofides\Kristofides\bin\Release\System.Data.SQLite.dll
 C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Release\Kristofides.csprojResolveAssemblyReference.cache
 C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Release\MainWindow.baml
 C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Release\ResearchPage.baml
