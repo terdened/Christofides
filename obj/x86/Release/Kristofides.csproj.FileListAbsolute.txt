@@ -14,3 +14,5 @@ C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Release\Kristofides.
 C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Release\Kristofides.exe
 C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Release\Kristofides.pdb
 C:\Dissertation\Kristofides\Kristofides\Kristofides\bin\Release\PowerCollections.dll
+C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Release\ConstructorPage.baml
+C:\Dissertation\Kristofides\Kristofides\Kristofides\obj\x86\Release\ConstructorPage.g.cs

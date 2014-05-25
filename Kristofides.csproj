@@ -58,6 +58,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ConstructorPage.xaml.cs">
+      <DependentUpon>ConstructorPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GraphSolver\BrutforceSolver.cs" />
     <Compile Include="GraphSolver\KristofidesSolver.cs" />
     <Compile Include="GraphSolver\Solver.cs" />
@@ -71,6 +74,10 @@
     <Compile Include="View\BruteforceHighlightedEdgeView.cs" />
     <Compile Include="WidthSearchOptimization\Item.cs" />
     <Compile Include="WidthSearchOptimization\WidthSearchOptimizator.cs" />
+    <Page Include="ConstructorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

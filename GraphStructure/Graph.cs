@@ -162,6 +162,7 @@ namespace Kristofides.GraphStructure
             }
 
             Edge newEdge = new Edge(a, b);
+            newEdge._title = edge._title;
             this._edgeList.Add(newEdge);
         }
 
@@ -193,6 +194,18 @@ namespace Kristofides.GraphStructure
             {
                 edge.updateVertex(_vertexList);
             }
+        }
+
+        public List<int> getVertexValue()
+        {
+            List<int> result = new List<int>();
+
+            foreach(Vertex vertex in _vertexList)
+            {
+                result.Add(getEdges(vertex).Count);
+            }
+
+            return result;
         }
 
         public void generateGraph()

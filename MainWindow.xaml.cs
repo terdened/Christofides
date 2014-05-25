@@ -28,11 +28,11 @@ namespace Kristofides
  
     public partial class MainWindow : Window
     {
-        private static DataManager.DatabaseManager _db;
         private static Research.Research _research;
 
         public MainWindow()
         {
+            _research = new Research.Research();
             InitializeComponent();
         }
 
@@ -41,7 +41,7 @@ namespace Kristofides
         /// </summary>
         private void MenuItemAbout_Click(object sender, RoutedEventArgs e)
         {
-            String info = "Current version 0.1.0.1";
+            String info = "Current version 0.1.8.1";
             MessageBox.Show(info, "About", MessageBoxButton.OK);
         }
 
@@ -56,49 +56,7 @@ namespace Kristofides
                 Application.Current.Shutdown();
             }
         }
-
-        private void MenuItemNewDatabase_Click(object sender, RoutedEventArgs e)
-        {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = String.Format("Database files|*{0}", "*.db");
-            saveFileDialog.DefaultExt = "db";
-            saveFileDialog.AddExtension = true;
-
-            if (saveFileDialog.ShowDialog(this) == true)
-            {
-                try
-                {
-                    File.Delete(saveFileDialog.FileName);
-                }
-                catch
-                {
-
-                }
-
-                _db = new DataManager.DatabaseManager(saveFileDialog.FileName);
-                _db.Create();
-                this.ResearchMenuItem.IsEnabled = true;
-                this.GraphMenuItem.IsEnabled = false;
-                //To do: init MainContent
-            }
-        }
-
-        private void MenuItemOpenDatabase_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = String.Format("Database files|*{0}", "*.db");
-            openFileDialog.DefaultExt = "db";
-            openFileDialog.AddExtension = true;
-
-            if (openFileDialog.ShowDialog(this) == true)
-            {
-                _db = new DataManager.DatabaseManager(openFileDialog.FileName);
-                this.ResearchMenuItem.IsEnabled = true;
-                this.GraphMenuItem.IsEnabled = false;
-                //To do: init MainContent
-            }
-        }
-
+        
         private void MenuItemSaveGraph_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -140,24 +98,23 @@ namespace Kristofides
 
                 if (newGraph != null)
                 {
+
+                    NewResearch();
                     _research.generateGraph(newGraph);
                     _research.getGraph().updateEdgeVertexs();
                     this.MainContent.Content = new ResearchPage(_research, this.isShowMatrix.IsChecked, this.isShowGraph.IsChecked);
                 }
             }
 
-                
         }
 
-        private void MenuItemNewResearch_Click(object sender, RoutedEventArgs e)
+        private void NewResearch()
         {
             _research = new Research.Research();
-            
-            this.GraphMenuItem.IsEnabled = true;
-            this.MainContent.Content = new ResearchPage(_research, false, false);
-            //_db.saveResearch(_research);
-        }
 
+            this.SaveGraphMenuItem.IsEnabled = true;
+            this.MainContent.Content = new ResearchPage(_research, false, false);
+        }
 
         private void MenuItemNewGraph_Click(object sender, RoutedEventArgs e)
         {
@@ -170,6 +127,7 @@ namespace Kristofides
             string maxEdge = Microsoft.VisualBasic.Interaction.InputBox(
                 "Input maximal edge count", "Input", minEdge, 100, 100);
 
+            NewResearch();
             _research.generateGraph(Int32.Parse(vertexCount), Int32.Parse(minEdge), Int32.Parse(maxEdge));
             this.MainContent.Content = new ResearchPage(_research, this.isShowMatrix.IsChecked, this.isShowGraph.IsChecked);
         }
@@ -183,5 +141,39 @@ namespace Kristofides
                 temp.updateGraph(this.isShowMatrix.IsChecked, this.isShowGraph.IsChecked);
             }
         }
+
+        private void MenuItemNewGraphConstructor_Click(object sender, RoutedEventArgs e)
+        {
+            _research = new Research.Research();
+
+            this.SaveGraphConstructorMenuItem.IsEnabled = true;
+            this.MainContent.Content = new ConstructorPage(_research);
+        }
+
+        private void MenuItemOpenGraphConstructor_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = String.Format("Xml-file|*{0}", "*.xml");
+            openFileDialog.DefaultExt = "xml";
+            openFileDialog.AddExtension = true;
+
+            if (openFileDialog.ShowDialog(this) == true)
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(Graph));
+                TextReader reader = File.OpenText(openFileDialog.FileName);
+                Graph newGraph = (Graph)serializer.Deserialize(reader);
+                reader.Close();
+
+                if (newGraph != null)
+                {
+
+                    NewResearch();
+                    _research.generateGraph(newGraph);
+                    _research.getGraph().updateEdgeVertexs();
+                    this.MainContent.Content = new ConstructorPage(_research);
+                }
+            }
+        }
+
     }
 }

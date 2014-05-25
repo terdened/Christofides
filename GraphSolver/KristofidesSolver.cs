@@ -31,7 +31,7 @@ namespace Kristofides.GraphSolver
             {
                 modified.addEdge(edge);
             }
-            FirstPenalty(1000);
+            FirstPenalty(10000);
         }
 
         public Graph GetModified()

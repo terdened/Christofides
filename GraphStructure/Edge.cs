@@ -21,9 +21,13 @@ namespace Kristofides.GraphStructure
         public int _bId;
         [XmlElement]
         public double _length;
+        [XmlElement]
+        public string _title;
+
 
         public Edge()
         {
+            _title = "";
         }
 
         public Edge(Vertex a, Vertex b)
@@ -34,6 +38,7 @@ namespace Kristofides.GraphStructure
             _bId = _b._id;
             Vector tempVector = new Vector(_a._x - _b._x, _a._y-b._y);
             _length = tempVector.Length;
+            _title = "";
         }
 
         public Edge(Edge edge)
@@ -43,6 +48,7 @@ namespace Kristofides.GraphStructure
             _aId = _a._id;
             _bId = _b._id;
             _length = edge._length;
+            _title = edge._title;
         }
 
         public void updateVertex(List<Vertex> vertexes)

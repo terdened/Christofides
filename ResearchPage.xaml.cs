@@ -34,9 +34,12 @@ namespace Kristofides
         private List<BruteforceHighlightedEdgeView> bruteforceHighlightedEdgeViewList;
         private GraphSolver.KristofidesSolver kristofidesSolution;
         private List<List<int>> loopControl;
-        private int maxLoopControlDeep = 8;
+        private int lastLoop=0;
+        private int maxLoopControlDeep = 20;
         private int minLoopControlDeep = 3;
         private double avarageLength;
+        private double currentPenaltyValue = -1;
+        private double decreseRepeatCounter = 0;
         #endregion
 
         #region public methods
@@ -104,9 +107,12 @@ namespace Kristofides
             List<Edge> edgeList = _research.getGraph().getEdgeList();
             for (int i = 0; i < edgeList.Count; i++)
             {
-                edgeViewList.Add(new EdgeView(edgeList[i]._a._x, edgeList[i]._a._y, edgeList[i]._b._x, edgeList[i]._b._y, (int)edgeList[i]._length));
+                edgeViewList.Add(new EdgeView(edgeList[i]._a._x, edgeList[i]._a._y, edgeList[i]._b._x, edgeList[i]._b._y, (int)edgeList[i]._length, edgeList[i]._title));
                 this.GraphCanvas.Children.Add(edgeViewList.Last().line);
                 this.GraphCanvas.Children.Add(edgeViewList.Last().text);
+
+                if (edgeViewList.Last().title != null)
+                    this.GraphCanvas.Children.Add(edgeViewList.Last().title);
             }
 
             List<VertexView> vertexViewList = new List<VertexView>();
@@ -254,6 +260,7 @@ namespace Kristofides
 
                     if (isCompare)
                     {
+                        MessageBox.Show("loop");
                         return true;
                     }
                 }
@@ -328,21 +335,57 @@ namespace Kristofides
             List<Edge> edges = kristofidesSolution.Solve()._edgeList;
             HighlightGraph(edges);
             BackupList.Items.Clear();
+            currentPenaltyValue = GetStepByProcent(double.Parse(StepSize.Text));
+            loopControl.Clear();
         }
 
         private void button3_Click(object sender, RoutedEventArgs e)
         {
+            if(currentPenaltyValue==-1)
+            {
+                currentPenaltyValue = GetStepByProcent(double.Parse(StepSize.Text));
+            }
+
+            if (IsLooped())
+            {
+                currentPenaltyValue /= 2;
+                loopControl.Clear();
+                lastLoop = 0;
+                decreseRepeatCounter++;
+            }
+
+            if ((lastLoop >= maxLoopControlDeep) && (currentPenaltyValue < GetStepByProcent(double.Parse(StepSize.Text))))
+            {
+                currentPenaltyValue *= 2;
+                decreseRepeatCounter = 0;
+            }
+
+            if (decreseRepeatCounter>=20)
+            {
+                kristofidesSolution.CombinePenalty(10);
+                decreseRepeatCounter = 0;
+                AddRecord("combine 10");
+            }
+
             if (!IsSolved(kristofidesSolution.Solve()))
             {
-                WidthSearchOptimizator optimizator = new WidthSearchOptimizator();
-                loopControl = new List<List<int>>();
+                double penaltyValue = GetStep();
 
-                string report = optimizator.Iteration(kristofidesSolution);
-                ListBoxItem lbi = new ListBoxItem();
-                lbi.Content = report;
-                BackupList.Items.Add(lbi);
-                HighlightGraph(kristofidesSolution.Solve()._edgeList);
-                IsSolved(kristofidesSolution.Solve());
+                if (kristofidesSolution != null)
+                {
+                    kristofidesSolution.CombinePenalty(currentPenaltyValue);
+                    Graph graph = kristofidesSolution.Solve();
+                    List<Edge> edges = graph._edgeList;
+                    if ((loopControl.Count>0)&&(!IsCompareTwoRecords(loopControl.Last(),graph.getVertexValue())))
+                        loopControl.Add(graph.getVertexValue());
+                    if (loopControl.Count==0)
+                        loopControl.Add(graph.getVertexValue());
+                    HighlightGraph(edges);
+                    IsSolved(kristofidesSolution.Solve());
+                    lastLoop++;
+                }
+
+                AddRecord("combine " + currentPenaltyValue.ToString());
             }
         }
 
@@ -532,6 +575,8 @@ namespace Kristofides
             ListBoxItem lbi = new ListBoxItem();
             lbi.Content = content;
             BackupList.Items.Add(lbi);
+            BackupList.ScrollIntoView(lbi);
+
 
             RecordsCount.Content = BackupList.Items.Count;
         }
@@ -539,18 +584,23 @@ namespace Kristofides
         private double GetStep()
         {
             double result = avarageLength / 100;
-            result *= StepValue.Value;
+            result *= double.Parse(StepSize.Text);
             return result;
         }
 
-        private void SliderValueChanged(object sender, RoutedEventArgs e)
+        private double GetStepByProcent(double value)
         {
-            if (sender != null && CurrentStep!=null)
-            {
-                Slider slider = (Slider)sender;
-                CurrentStep.Content = slider.Value.ToString() + "%";
-            }
+            double result = avarageLength / 100;
+            result *= value;
+            return result;
         }
+        private void StepSize_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            currentPenaltyValue = GetStepByProcent(double.Parse(StepSize.Text));
+        }
+
         #endregion
+
+        
     }
 }

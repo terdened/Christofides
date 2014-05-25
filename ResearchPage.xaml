@@ -59,8 +59,6 @@
 
             </Grid>
             <ListBox Grid.Column="0" Grid.Row="1" Width="300" Height="200" Name="BackupList"/>
-            <Slider Grid.Column="0" Margin="3" Grid.Row="2" Width="300" Name="StepValue" Interval="1" Maximum="100" Minimum="1" TickPlacement="None" TickFrequency="1" 
-    IsSnapToTickEnabled="True" ValueChanged="SliderValueChanged" SmallChange="1" />
             <Grid Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -74,11 +72,11 @@
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Grid.Row="0" Margin="3" Content="Current step:" HorizontalAlignment="Left" Name="CurrentStepLabel" VerticalAlignment="Top" />
                 <Label Grid.Column="0" Grid.Row="1" Margin="3" Content="Avarrange length" HorizontalAlignment="Left" Name="AvarrangeLengthLabel" VerticalAlignment="Top" />
-                <Label Grid.Column="1" Grid.Row="0" Margin="3" Content="1%" HorizontalAlignment="Left" Name="CurrentStep" VerticalAlignment="Top" />
                 <Label Grid.Column="1" Grid.Row="1" Margin="3" Content="0" HorizontalAlignment="Left" Name="AvarrangeLength" VerticalAlignment="Top" />
                 <Label Grid.Column="0" Grid.Row="2" Margin="3" Content="StepsCount" HorizontalAlignment="Left" Name="RecordsCountLabel" VerticalAlignment="Top" />
                 <Label Grid.Column="1" Grid.Row="2" Margin="3" Content="0" HorizontalAlignment="Left" Name="RecordsCount" VerticalAlignment="Top" />
-
+                <TextBox Grid.Column="1" Grid.Row="0" Margin="3" Width="60" Name="StepSize" TextChanged="StepSize_TextChanged" Text="1"/>
+                
                 <Label  Content="Graph matrix:"  Grid.Row="3" Grid.Column="0"/>
                 <Label  Name="MatrixGrid" Grid.Row="3" Grid.Column="1"/>
             </Grid>

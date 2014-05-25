@@ -11,20 +11,15 @@
             <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Menu>
-            <MenuItem Header="Working database">
-                <MenuItem Header="New database" Click="MenuItemNewDatabase_Click"></MenuItem>
-                <MenuItem Header="Open existing database" Click="MenuItemOpenDatabase_Click"></MenuItem>
-                <Separator></Separator>
-                <MenuItem Header="Exit"  Click="MenuItemExit_Click"></MenuItem>
-            </MenuItem>
-            <MenuItem Name="ResearchMenuItem" Header="Research" IsEnabled="False">
-                <MenuItem Name="GraphMenuItem" Header="Graph" IsEnabled="False">
+            <MenuItem Name="ResearchMenuItem" Header="Graph research" IsEnabled="True">
                     <MenuItem Name="NewGraphMenuItem" Header="New graph" Click="MenuItemNewGraph_Click"></MenuItem>
                     <MenuItem Name="OpenNewGraphMenuItem" Header="Open graph" Click="MenuItemOpenGraph_Click"></MenuItem>
-                    <MenuItem Name="SaveGraphMenuItem" Header="Save graph" Click="MenuItemSaveGraph_Click"></MenuItem>
-                </MenuItem>
-                <MenuItem Header="New research" Click="MenuItemNewResearch_Click"></MenuItem>
-                <MenuItem Header="Open research"></MenuItem>
+                    <MenuItem Name="SaveGraphMenuItem" Header="Save graph" Click="MenuItemSaveGraph_Click" IsEnabled="False"></MenuItem>
+            </MenuItem>
+            <MenuItem Name="GraphConstructorMenuItem" Header="Graph constructor">
+                    <MenuItem Name="NewGraphConstructorMenuItem" Header="New graph" Click="MenuItemNewGraphConstructor_Click"></MenuItem>
+                    <MenuItem Name="OpenGraphConstructorMenuItem" Header="Open graph" Click="MenuItemOpenGraphConstructor_Click"></MenuItem>
+                    <MenuItem Name="SaveGraphConstructorMenuItem" Header="Save graph" Click="MenuItemSaveGraph_Click" IsEnabled="False"></MenuItem>
             </MenuItem>
             <MenuItem Header="View">
                 <MenuItem Header="Windows">
