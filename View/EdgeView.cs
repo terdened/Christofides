@@ -35,7 +35,8 @@ namespace Kristofides.View
 
             text = new Label();
             text.Content = length.ToString();
-            text.Margin = new Thickness(-text.Content.ToString().Length*9 + (x1 + x2) / 2, -9 + (y1 + y2) / 2, 0, 0);
+            text.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            text.Margin = new Thickness((x1 + x2) / 2 - text.DesiredSize.Width / 2, -text.DesiredSize.Height / 2 + (y1 + y2) / 2, 0, 0);
             double tan = 0;
             if ((x1 - x2) != 0)
             {
@@ -47,8 +48,9 @@ namespace Kristofides.View
             }
 
             double angle = Math.Atan(tan) * 180 / Math.PI;
-            RotateTransform rotateTransform1 = new RotateTransform(angle, text.Content.ToString().Length * 9 / 2, 0);
+            RotateTransform rotateTransform1 = new RotateTransform(angle, text.DesiredSize.Width / 2, text.DesiredSize.Height / 2);
             text.RenderTransform = rotateTransform1;
+            text.Margin = new Thickness(text.Margin.Left + 8 * Math.Sin(Math.PI * angle / 180), text.Margin.Top + 8 * Math.Cos(Math.PI * angle / 180), 0, 0);
             text.Foreground = System.Windows.Media.Brushes.Brown;
 
 
@@ -57,11 +59,12 @@ namespace Kristofides.View
             {
                 title = new Label();
                 title.Content = Title;
-
-                title.Margin = new Thickness(-title.Content.ToString().Length * 9 + (x1 + x2) / 2, 10 + (y1 + y2) / 2, 0, 0);
-                RotateTransform rotateTransform2 = new RotateTransform(angle, title.Content.ToString().Length * 9 / 2, 0);
+                title.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                title.Margin = new Thickness((x1 + x2) / 2 - title.DesiredSize.Width / 2, - title.DesiredSize.Height / 2 + (y1 + y2) / 2, 0, 0);
+                RotateTransform rotateTransform2 = new RotateTransform(angle, title.DesiredSize.Width / 2, title.DesiredSize.Height / 2);
                 title.RenderTransform = rotateTransform2;
                 title.Foreground = System.Windows.Media.Brushes.DarkGreen;
+                title.Margin = new Thickness(title.Margin.Left + 20 * Math.Sin(Math.PI * angle / 180), title.Margin.Top + 20 * Math.Cos(Math.PI * angle / 180), 0, 0);
             }
         }
     }

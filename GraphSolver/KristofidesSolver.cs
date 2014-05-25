@@ -58,7 +58,16 @@ namespace Kristofides.GraphSolver
 
             foreach (Edge edge in inputGraph.getEdges())
             {
-                edgeSortedList.Add(edge._length, edge);
+                try
+                {
+                    edgeSortedList.Add(edge._length, edge);
+                }
+                catch
+                {
+                    double rand = new Random().NextDouble();
+                    rand *= 0.000001;
+                    edgeSortedList.Add(edge._length + rand, edge);
+                }
             }
 
             while (result.getEdges().Count < inputGraph.getVertex().Count-1)

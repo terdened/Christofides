@@ -25,11 +25,17 @@ namespace Kristofides
         Research.Research _research;
         int pointId = 0;
         Vertex selected=null;
+        List<EdgeView> edgeViewList;
+        List<VertexView> vertexViewList;
 
         public ConstructorPage(Research.Research research)
         {
+
             InitializeComponent();
-            RefreshCanvas();
+
+            vertexViewList = new List<VertexView>();
+            edgeViewList = new List<EdgeView>();
+            InitCanvas();
             _research = research;
             if (_research != null)
             {
@@ -51,13 +57,44 @@ namespace Kristofides
 
         private void RefreshCanvas()
         {
+            foreach (VertexView vertex in vertexViewList)
+            {
+                try
+                {
+                    GraphCanvas.Children.Remove(vertex.circle);
+                    GraphCanvas.Children.Remove(vertex.text);
+                }
+                catch
+                {
+
+                }
+            }
+
+            foreach (EdgeView edge in edgeViewList)
+            {
+                try
+                {
+                    GraphCanvas.Children.Remove(edge.line);
+                    GraphCanvas.Children.Remove(edge.text);
+                    GraphCanvas.Children.Remove(edge.title);
+                }
+                catch
+                {
+
+                }
+            }
+        }
+
+        private void InitCanvas()
+        {
             GraphCanvas.Children.Clear();
             Rectangle back = new Rectangle();
             back.Width = 700;
             back.Height = 500;
             back.Fill = System.Windows.Media.Brushes.White;
             back.Stroke = System.Windows.Media.Brushes.Gray;
-            GraphCanvas.Children.Add(back);
+
+            GraphCanvas.Background = new SolidColorBrush(Colors.White);
         }
 
         private void CreatePointButton_Click(object sender, RoutedEventArgs e)
@@ -139,10 +176,27 @@ namespace Kristofides
             }
         }
 
+        private void Open_Image(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dl1 = new Microsoft.Win32.OpenFileDialog();
+            dl1.FileName = "MYFileSave";
+            dl1.DefaultExt = ".png";
+            dl1.Filter = "Image documents (.png)|*.png";
+            Nullable<bool> result = dl1.ShowDialog();
+
+            if (result == true)
+            {
+                string filename = dl1.FileName;
+                ImageBrush brush = new ImageBrush();
+                brush.ImageSource = new BitmapImage(new Uri(@filename, UriKind.Relative));
+                GraphCanvas.Background = brush;
+            }
+        }
+
         public void ShowGraph()
         {
             RefreshCanvas();
-            List<EdgeView> edgeViewList = new List<EdgeView>();
+            edgeViewList = new List<EdgeView>();
             List<Edge> edgeList = _research.getGraph().getEdgeList();
 
             for (int i = 0; i < edgeList.Count; i++)
@@ -154,7 +208,7 @@ namespace Kristofides
                     this.GraphCanvas.Children.Add(edgeViewList.Last().title);
             }
 
-            List<VertexView> vertexViewList = new List<VertexView>();
+            vertexViewList = new List<VertexView>();
             List<Vertex> vertexList = _research.getGraph().getVertexList();
 
             for (int i = 0; i < vertexList.Count; i++)
