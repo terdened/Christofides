@@ -16,8 +16,9 @@ namespace Kristofides.View
         public Ellipse circle;
         //public TextBox text;
         public Label text;
+        public Label title;
 
-        public VertexView(double X, double Y, int Number)
+        public VertexView(double X, double Y, int Number, string Title)
         {
             x = X;
             y = Y;
@@ -38,7 +39,19 @@ namespace Kristofides.View
             circle.VerticalAlignment = VerticalAlignment.Center;
             text = new Label();
             text.Content = (number+1).ToString();
-            text.Margin = new Thickness(x - text.Content.ToString().Length*6, y - 13, 0, 0);
+            text.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            text.Margin = new Thickness(x - text.DesiredSize.Width / 2, y - 13, 0, 0);
+
+            title = null;
+            if (Title != "")
+            {
+                title = new Label();
+                title.Content = Title;
+                title.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                title.Margin = new Thickness(x - title.DesiredSize.Width / 2, y - 30, 0, 0);
+                title.Foreground = System.Windows.Media.Brushes.DarkGreen;
+                title.Background = System.Windows.Media.Brushes.White;
+            }
         }
     }
 }

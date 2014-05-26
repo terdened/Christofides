@@ -138,7 +138,7 @@ namespace Kristofides.GraphStructure
         public void addVertex(Vertex v)
         {
             Vertex newVertex = new Vertex(v._id,v._x,v._y);
-            //newVertex._edgeList = new List<Edge>();
+            newVertex._title = v._title;
             _vertexList.Add(newVertex);
         }
 

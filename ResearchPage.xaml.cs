@@ -119,7 +119,10 @@ namespace Kristofides
             List<Vertex> vertexList = _research.getGraph().getVertexList();
             for (int i = 0; i < vertexList.Count; i++)
             {
-                vertexViewList.Add(new VertexView(vertexList[i]._x, vertexList[i]._y, vertexList[i]._id));
+                vertexViewList.Add(new VertexView(vertexList[i]._x, vertexList[i]._y, vertexList[i]._id, vertexList[i]._title));
+
+                if (vertexViewList.Last().title != null)
+                    this.GraphCanvas.Children.Add(vertexViewList.Last().title);
                 this.GraphCanvas.Children.Add(vertexViewList.Last().circle);
                 this.GraphCanvas.Children.Add(vertexViewList.Last().text);
             }

@@ -146,6 +146,7 @@ namespace Kristofides
             {
                 Point p = e.GetPosition(this);
                 GraphStructure.Vertex vetex = new GraphStructure.Vertex();
+                vetex._title = Microsoft.VisualBasic.Interaction.InputBox("Input vertex title", "Input", "", 100, 100);
                 vetex._x = p.X-44;
                 vetex._y = p.Y-4;
                 vetex._id = pointId++;
@@ -213,9 +214,11 @@ namespace Kristofides
 
             for (int i = 0; i < vertexList.Count; i++)
             {
-                vertexViewList.Add(new VertexView(vertexList[i]._x, vertexList[i]._y, vertexList[i]._id));
+                vertexViewList.Add(new VertexView(vertexList[i]._x, vertexList[i]._y, vertexList[i]._id, vertexList[i]._title));
                 this.GraphCanvas.Children.Add(vertexViewList.Last().circle);
                 this.GraphCanvas.Children.Add(vertexViewList.Last().text);
+                if (vertexViewList.Last().title != null)
+                    this.GraphCanvas.Children.Add(vertexViewList.Last().title);
             }
         }
     }
