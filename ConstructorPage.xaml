@@ -23,13 +23,17 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Name="CreatePointButton"  Content="." Margin="5,4,5,0" Width="30" Height="30" VerticalAlignment="Top" Click="CreatePointButton_Click"/>
-            <Button Grid.Column="1" Name="CreateLineButton" Content="/" Margin="3" Width="30" Height="30" Click="CreateLineButton_Click"/>
-            <Button Grid.Column="2" Name="OpenImageButton" Content="*" Margin="3" Width="30" Height="30" Click="Open_Image"/>
-            <Button Grid.Column="3" Name="StrongLinkedButton" Content="#" Margin="3" Width="30" Height="30" Click="Strong_Linked"/>
-            <CheckBox Grid.Column="4" Name="IsEdgeTitled" Margin="3" IsChecked="False" Content="Titled edge"/>
-            <CheckBox Grid.Column="5" Name="IsVertexTitled" Margin="3" IsChecked="False" Content="Titled vertex"/>
+            <Button Grid.Column="0" Name="CreatePointButton"  Content="Add point" Margin="6,5,0,0" Width="70" Height="30" VerticalAlignment="Top" Click="CreatePointButton_Click"/>
+            <Button Grid.Column="1" Name="CreateLineButton" Content="Add edge" Margin="3" Width="70" Height="30" Click="CreateLineButton_Click"/>
+            <Button Grid.Column="2" Name="OpenImageButton" Content="Open image" Margin="3" Width="80" Height="30" Click="Open_Image"/>
+            <Button Grid.Column="3" Name="StrongLinkedButton" Content="Strongly connected" Margin="3" Width="120" Height="30" Click="Strong_Linked"/>
+            <Button Grid.Column="4" Name="PrewGraphButton" Content="Undo" Margin="3" Width="70" Height="30" Click="PrewGraphButton_Click"/>
+            <Button Grid.Column="5" Name="NextGraphButton" Content="Redo" Margin="3" Width="70" Height="30" Click="NextGraphButton_Click"/>
+            <CheckBox Grid.Column="6" Name="IsEdgeTitled" Margin="2,13,4,7" IsChecked="False" Content="Titled edge"/>
+            <CheckBox Grid.Column="7" Name="IsVertexTitled" Margin="1,13,5,7" IsChecked="False" Content="Titled vertex"/>
         </Grid>
         <Canvas Grid.Column="0" Grid.Row="1" Margin="3" Width="700" Height="500" Name="GraphCanvas" MouseDown="Canvas_Click"/>
     </Grid>

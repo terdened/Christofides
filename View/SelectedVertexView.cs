@@ -9,20 +9,9 @@ using System.Windows.Media;
 
 namespace Kristofides.View
 {
-    public class VertexView
+    public class SelectedVertexView: VertexView
     {
-        public double x, y;
-        public int number;
-        public Ellipse circle;
-        //public TextBox text;
-        public Label text;
-        public Label title;
-
-        public VertexView()
-        {
-        }
-
-        public VertexView(double X, double Y, int Number, string Title)
+        public SelectedVertexView(double X, double Y, int Number, string Title)
         {
             x = X;
             y = Y;
@@ -30,7 +19,7 @@ namespace Kristofides.View
 
             SolidColorBrush mySolidColorBrush = new SolidColorBrush();
 
-            mySolidColorBrush.Color = Color.FromArgb(255, 255, 255, 0);
+            mySolidColorBrush.Color = Color.FromArgb(0, 255, 0, 0);
 
             circle = new Ellipse();
             circle.Width = 20;

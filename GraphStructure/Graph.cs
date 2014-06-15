@@ -208,6 +208,19 @@ namespace Kristofides.GraphStructure
             return result;
         }
 
+        public int getlastVertexId()
+        {
+            int result = -1;
+
+            foreach(var vertex in _vertexList)
+            {
+                if (vertex._id > result)
+                    result = vertex._id;
+            }
+
+            return result;
+        }
+
         public void generateGraph()
         {
             Random rand = new Random();

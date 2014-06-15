@@ -27,12 +27,56 @@ namespace Kristofides
         Vertex selected=null;
         List<EdgeView> edgeViewList;
         List<VertexView> vertexViewList;
+        List<Graph> history;
+        int currentGraph = 0;
+
+        private void UpdateGraph()
+        {
+            if (currentGraph != history.Count - 1)
+            {
+                history.RemoveAt(currentGraph + 1);      
+            }
+
+            history.Add(new Graph(_research.getGraph()));
+            currentGraph++;
+            ShowGraph();
+        }
+
+        private void PrewGraph()
+        {
+            if (currentGraph > 0)
+            {
+                currentGraph--;
+                _research.generateGraph(new Graph(history[currentGraph]));
+                pointId = _research.getGraph().getlastVertexId()+1;
+                ShowGraph();
+            }else
+            {
+                MessageBox.Show("It is the Begining");
+            }
+        }
+
+        private void NextGraph()
+        {
+            if (currentGraph < history.Count-1)
+            {
+                currentGraph++;
+                _research.generateGraph(history[currentGraph]);
+                pointId = _research.getGraph().getlastVertexId()+1;
+                ShowGraph();
+            }
+            else
+            {
+                MessageBox.Show("It is the End");
+            }
+        }
 
         public ConstructorPage(Research.Research research)
         {
 
             InitializeComponent();
 
+            history = new List<Graph>();
             vertexViewList = new List<VertexView>();
             edgeViewList = new List<EdgeView>();
             InitCanvas();
@@ -53,6 +97,7 @@ namespace Kristofides
             {
                 _research = new Research.Research();
             }
+            history.Add(new Graph(_research.getGraph()));
         }
 
         private void RefreshCanvas()
@@ -152,7 +197,7 @@ namespace Kristofides
                 vetex._y = p.Y - 44;
                 vetex._id = pointId++;
                 _research.getGraph().addVertex(vetex);
-                ShowGraph();
+                UpdateGraph();
             }
             else
             if (state == "CreateLine")
@@ -162,18 +207,26 @@ namespace Kristofides
                 if(selected==null)
                 {
                     selected = SelectVertex(p);
+                    ShowGraph();
                 }
                 else
                 {
                     if (SelectVertex(p)!=null)
                     {
-                        Edge edge = new Edge(selected, SelectVertex(p));
-                        if(IsEdgeTitled.IsChecked==true)
-                            edge._title = Microsoft.VisualBasic.Interaction.InputBox("Input edge title", "Input", "", 100, 100);
+                        if (selected._id != SelectVertex(p)._id)
+                        {
+                            Edge edge = new Edge(selected, SelectVertex(p));
+                            if (IsEdgeTitled.IsChecked == true)
+                                edge._title = Microsoft.VisualBasic.Interaction.InputBox("Input edge title", "Input", "", 100, 100);
 
-                        _research.getGraph().addEdge(edge);
-                        selected = null;
-                        ShowGraph();
+                            _research.getGraph().addEdge(edge);
+                            selected = null;
+                            UpdateGraph();
+                        }else
+                        {
+                            selected = null;
+                            ShowGraph();
+                        }
                     }
                 }
             }
@@ -216,12 +269,22 @@ namespace Kristofides
 
             for (int i = 0; i < vertexList.Count; i++)
             {
-                vertexViewList.Add(new VertexView(vertexList[i]._x, vertexList[i]._y, vertexList[i]._id, vertexList[i]._title));
+                if (selected != null)
+                {
+                    if (vertexList[i]._id != selected._id)
+                        vertexViewList.Add(new VertexView(vertexList[i]._x, vertexList[i]._y, vertexList[i]._id, vertexList[i]._title));
+                    else
+                        vertexViewList.Add(new SelectedVertexView(vertexList[i]._x, vertexList[i]._y, vertexList[i]._id, vertexList[i]._title));
+                }
+                else
+                {
+                    vertexViewList.Add(new VertexView(vertexList[i]._x, vertexList[i]._y, vertexList[i]._id, vertexList[i]._title));
+                }
+
                 if (vertexViewList.Last().title != null)
                     this.GraphCanvas.Children.Add(vertexViewList.Last().title);
                 this.GraphCanvas.Children.Add(vertexViewList.Last().circle);
                 this.GraphCanvas.Children.Add(vertexViewList.Last().text);
-                
             }
         }
 
@@ -237,7 +300,17 @@ namespace Kristofides
                     _research.getGraph().addEdge(edge);
                 }
             }
-            ShowGraph();
+            UpdateGraph();
+        }
+
+        private void PrewGraphButton_Click(object sender, RoutedEventArgs e)
+        {
+            PrewGraph();
+        }
+
+        private void NextGraphButton_Click(object sender, RoutedEventArgs e)
+        {
+            NextGraph();
         }
     }
 }

@@ -41,7 +41,7 @@ namespace Kristofides
         /// </summary>
         private void MenuItemAbout_Click(object sender, RoutedEventArgs e)
         {
-            String info = "Current version 0.1.8.1";
+            String info = "Current version 0.2.0.1";
             MessageBox.Show(info, "About", MessageBoxButton.OK);
         }
 
@@ -118,18 +118,43 @@ namespace Kristofides
 
         private void MenuItemNewGraph_Click(object sender, RoutedEventArgs e)
         {
-            string vertexCount = Microsoft.VisualBasic.Interaction.InputBox(
-                "Input vertex count", "Input", "3", 100, 100);
+            int vertexCount;
+            int minEdge;
+            int maxEdge;
 
-            string minEdge = Microsoft.VisualBasic.Interaction.InputBox(
-                "Input minimal edge count", "Input", "0", 100, 100);
+            try
+            {
+                
+                vertexCount = Int32.Parse(Microsoft.VisualBasic.Interaction.InputBox(
+                "Input vertex count", "Input", "3", 100, 100));
 
-            string maxEdge = Microsoft.VisualBasic.Interaction.InputBox(
-                "Input maximal edge count", "Input", minEdge, 100, 100);
+                try
+                {
+                    minEdge = Int32.Parse(Microsoft.VisualBasic.Interaction.InputBox(
+                    "Input minimal edge count", "Input", "0", 100, 100));
 
-            NewResearch();
-            _research.generateGraph(Int32.Parse(vertexCount), Int32.Parse(minEdge), Int32.Parse(maxEdge));
-            this.MainContent.Content = new ResearchPage(_research, this.isShowMatrix.IsChecked, this.isShowGraph.IsChecked);
+                     try
+                     {
+                         maxEdge = Int32.Parse(Microsoft.VisualBasic.Interaction.InputBox(
+                        "Input maximal edge count", "Input", minEdge.ToString(), 100, 100));
+                         NewResearch();
+                         _research.generateGraph(vertexCount, minEdge, maxEdge);
+                         this.MainContent.Content = new ResearchPage(_research, this.isShowMatrix.IsChecked, this.isShowGraph.IsChecked);
+                     }
+                     catch
+                     {
+
+                     }
+                }
+                catch
+                { 
+
+                }
+            }
+            catch
+            {
+
+            }
         }
 
 

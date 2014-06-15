@@ -390,13 +390,6 @@ namespace Kristofides
                 decreseRepeatCounter = 0;
             }
 
-            if (decreseRepeatCounter>=20)
-            {
-                kristofidesSolution.CombinePenalty(10);
-                decreseRepeatCounter = 0;
-                AddRecord("combine 10");
-            }
-
             if (!IsSolved(kristofidesSolution.Solve()))
             {
                 double penaltyValue = GetStep();

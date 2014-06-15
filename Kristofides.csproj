@@ -68,6 +68,7 @@
       <DependentUpon>ResearchPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Research\Research.cs" />
+    <Compile Include="View\SelectedVertexView.cs" />
     <Compile Include="View\VertexView.cs" />
     <Compile Include="View\EdgeView.cs" />
     <Compile Include="View\HighlightedEdgeView.cs" />
