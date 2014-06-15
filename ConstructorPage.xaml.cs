@@ -131,7 +131,7 @@ namespace Kristofides
 
             foreach(var vertex in _research.getGraph()._vertexList)
             {
-                if(IsSelect(p, new Point(vertex._x+44,vertex._y+4)))
+                if(IsSelect(p, new Point(vertex._x+4,vertex._y+44)))
                 {
                     return vertex;
                 }
@@ -146,9 +146,10 @@ namespace Kristofides
             {
                 Point p = e.GetPosition(this);
                 GraphStructure.Vertex vetex = new GraphStructure.Vertex();
+                if (IsVertexTitled.IsChecked == true)
                 vetex._title = Microsoft.VisualBasic.Interaction.InputBox("Input vertex title", "Input", "", 100, 100);
-                vetex._x = p.X-44;
-                vetex._y = p.Y-4;
+                vetex._x = p.X-4;
+                vetex._y = p.Y - 44;
                 vetex._id = pointId++;
                 _research.getGraph().addVertex(vetex);
                 ShowGraph();
@@ -167,7 +168,8 @@ namespace Kristofides
                     if (SelectVertex(p)!=null)
                     {
                         Edge edge = new Edge(selected, SelectVertex(p));
-                        edge._title = Microsoft.VisualBasic.Interaction.InputBox("Input edge title", "Input", "", 100, 100);
+                        if(IsEdgeTitled.IsChecked==true)
+                            edge._title = Microsoft.VisualBasic.Interaction.InputBox("Input edge title", "Input", "", 100, 100);
 
                         _research.getGraph().addEdge(edge);
                         selected = null;
@@ -215,11 +217,27 @@ namespace Kristofides
             for (int i = 0; i < vertexList.Count; i++)
             {
                 vertexViewList.Add(new VertexView(vertexList[i]._x, vertexList[i]._y, vertexList[i]._id, vertexList[i]._title));
-                this.GraphCanvas.Children.Add(vertexViewList.Last().circle);
-                this.GraphCanvas.Children.Add(vertexViewList.Last().text);
                 if (vertexViewList.Last().title != null)
                     this.GraphCanvas.Children.Add(vertexViewList.Last().title);
+                this.GraphCanvas.Children.Add(vertexViewList.Last().circle);
+                this.GraphCanvas.Children.Add(vertexViewList.Last().text);
+                
             }
+        }
+
+        private void Strong_Linked(object sender, RoutedEventArgs e)
+        {
+            var vertexList = _research.getGraph()._vertexList;
+            _research.getGraph()._edgeList.Clear();
+            foreach(Vertex vertex in vertexList)
+            {
+                for (int i = vertex._id+1; i < vertexList.Count; i++)
+                {
+                    Edge edge = new Edge(vertex, vertexList[i]);
+                    _research.getGraph().addEdge(edge);
+                }
+            }
+            ShowGraph();
         }
     }
 }

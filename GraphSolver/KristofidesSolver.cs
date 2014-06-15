@@ -130,6 +130,13 @@ namespace Kristofides.GraphSolver
                 }
             }
         }
+        private double GetRandomK()
+        {
+            Random rand = new Random();
+            double result= rand.NextDouble()*5;
+            //return 0.75 + result;
+            return 1;
+        }
 
         public void CombinePenalty(double value)
         {
@@ -139,12 +146,12 @@ namespace Kristofides.GraphSolver
                 if (skeleton.getEdges(skeleton.getVertex()[i]).Count == 1)
                 {
                     int vertexId = skeleton.getVertex()[i]._id;
-
+                    double K=GetRandomK();
                     for (int j = 0; j < modified.getEdgeList().Count; j++)
                     {
                         if ((modified._edgeList[j]._a._id == vertexId) || (modified._edgeList[j]._b._id == vertexId))
                         {
-                            modified._edgeList[j]._length -= value;
+                            modified._edgeList[j]._length -= value * K;
                         }
                     }
                 }
@@ -152,12 +159,13 @@ namespace Kristofides.GraphSolver
                 if (skeleton.getEdges(skeleton.getVertex()[i]).Count > 2)
                 {
                     int vertexId = skeleton.getVertex()[i]._id;
+                    double K = GetRandomK();
 
                     for (int j = 0; j < modified.getEdgeList().Count; j++)
                     {
                         if ((modified._edgeList[j]._a._id == vertexId) || (modified._edgeList[j]._b._id == vertexId))
                         {
-                            modified._edgeList[j]._length += value * (skeleton.getEdges(skeleton.getVertex()[i]).Count - 2);
+                            modified._edgeList[j]._length += value * (skeleton.getEdges(skeleton.getVertex()[i]).Count - 2) * K;
                         }
                     }
                 }

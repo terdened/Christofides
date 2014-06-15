@@ -35,7 +35,7 @@ namespace Kristofides
         private GraphSolver.KristofidesSolver kristofidesSolution;
         private List<List<int>> loopControl;
         private int lastLoop=0;
-        private int maxLoopControlDeep = 20;
+        private int maxLoopControlDeep = 50;
         private int minLoopControlDeep = 3;
         private double avarageLength;
         private double currentPenaltyValue = -1;
@@ -130,6 +130,33 @@ namespace Kristofides
 
             kristofidesSolution = new GraphSolver.KristofidesSolver(_research.getGraph());
             loopControl = new List<List<int>>();
+        }
+
+        public void JustShowGraph()
+        {
+            List<EdgeView> edgeViewList = new List<EdgeView>();
+            List<Edge> edgeList = _research.getGraph().getEdgeList();
+            for (int i = 0; i < edgeList.Count; i++)
+            {
+                edgeViewList.Add(new EdgeView(edgeList[i]._a._x, edgeList[i]._a._y, edgeList[i]._b._x, edgeList[i]._b._y, (int)edgeList[i]._length, edgeList[i]._title));
+                this.GraphCanvas.Children.Add(edgeViewList.Last().line);
+                this.GraphCanvas.Children.Add(edgeViewList.Last().text);
+
+                if (edgeViewList.Last().title != null)
+                    this.GraphCanvas.Children.Add(edgeViewList.Last().title);
+            }
+
+            List<VertexView> vertexViewList = new List<VertexView>();
+            List<Vertex> vertexList = _research.getGraph().getVertexList();
+            for (int i = 0; i < vertexList.Count; i++)
+            {
+                vertexViewList.Add(new VertexView(vertexList[i]._x, vertexList[i]._y, vertexList[i]._id, vertexList[i]._title));
+
+                if (vertexViewList.Last().title != null)
+                    this.GraphCanvas.Children.Add(vertexViewList.Last().title);
+                this.GraphCanvas.Children.Add(vertexViewList.Last().circle);
+                this.GraphCanvas.Children.Add(vertexViewList.Last().text);
+            }
         }
         #endregion
 
@@ -603,6 +630,45 @@ namespace Kristofides
         }
 
         #endregion
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            _research.generateGraph(Int32.Parse(this.VertexCount.Text), Int32.Parse(this.MinValue.Text), Int32.Parse(this.MaxValue.Text));
+            kristofidesSolution = new KristofidesSolver(_research.getGraph());
+            this.GraphCanvas.Children.Clear();
+            this.BackupList.Items.Clear();
+
+            int iterationsCount = Int32.Parse(this.MaxIterations.Text);
+
+            int counter = 0;
+
+            while ((counter < iterationsCount) && (!IsSolved(kristofidesSolution.Solve())))
+            {
+                    double penaltyValue = GetStep();
+
+                    if (kristofidesSolution != null)
+                    {
+                        kristofidesSolution.CombinePenalty(penaltyValue);
+                    }
+
+                    AddRecord("combine " + penaltyValue.ToString());
+                    counter++;
+            }
+
+            JustShowGraph();
+
+            List<Edge> edges = kristofidesSolution.Solve()._edgeList;
+            HighlightGraph(edges);
+
+            if (counter == iterationsCount)
+            {
+                MessageBox.Show("looped");
+            }
+            else
+            {
+                MessageBox.Show("solved: " + counter.ToString() + " steps");
+            }
+        }
 
         
     }
